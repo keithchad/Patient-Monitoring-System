@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "687933035906",
+    "project_id": "patient-monitoring-syste-c3a8f",
+    "storage_bucket": "patient-monitoring-syste-c3a8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687933035906:android:999742f75a6146e1806b9b",
+        "android_client_info": {
+          "package_name": "com.robo101.patientmonitoringsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687933035906-m55jmkv960t2vuumh1fvvkdi5ql9sc3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG-79KpLAvW4MDKvDTh9FVk0h5aSR7mW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687933035906-m55jmkv960t2vuumh1fvvkdi5ql9sc3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

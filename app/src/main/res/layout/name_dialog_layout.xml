@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginEnd="8dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="@string/name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createTextInputLayoutName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/username"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        tools:layout_editor_absoluteX="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edittextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu_regular" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createTextInputLayoutBd"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="30dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/ubuntu_regular"
+        android:text="@string/birthday"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        app:strokeColor="#686868"
+        android:textColor="#A3A3A3"
+        app:layout_constraintTop_toBottomOf="@+id/createTextInputLayoutName"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createTextInputLayoutAge"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/age"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/createTextInputLayoutBd"
+        tools:layout_editor_absoluteX="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edittextAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:fontFamily="@font/ubuntu_regular" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createTextInputLayoutGender"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/gender"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/createTextInputLayoutAge"
+        tools:layout_editor_absoluteX="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edittextGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu_regular" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonContinue"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="@string/continue1"
+        app:layout_constraintTop_toBottomOf="@+id/createTextInputLayoutGender"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarNameDialog"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonContinue"
+        app:layout_constraintEnd_toEndOf="@+id/buttonContinue"
+        app:layout_constraintStart_toStartOf="@+id/buttonContinue"
+        app:layout_constraintTop_toTopOf="@+id/buttonContinue" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
