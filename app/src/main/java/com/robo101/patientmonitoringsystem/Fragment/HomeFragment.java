@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.robo101.patientmonitoringsystem.Constants.Constants;
 import com.robo101.patientmonitoringsystem.Model.User;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.Utils.PreferenceManager;
+import com.robo101.patientmonitoringsystem.viewmodel.TipsViewModel;
 
 import java.util.Objects;
 
@@ -31,6 +31,9 @@ public class HomeFragment extends Fragment {
     private ImageView imageProfile;
     private FirebaseUser firebaseUser;
     private TextView textUsername;
+    private TextView textTips;
+
+    private TipsViewModel tipsViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,16 +45,15 @@ public class HomeFragment extends Fragment {
 
     private void initialize(View view) {
 
-        PreferenceManager preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
         textUsername = view.findViewById(R.id.textUsername);
         imageProfile = view.findViewById(R.id.imageProfileHome);
+        textTips = view.findViewById(R.id.textHealthTips);
+        tipsViewModel = new ViewModelProvider(this).get(TipsViewModel.class);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-//        if (preferenceManager.getString(Constants.USER_NAME) != null) {
-//            textUsername.setText(preferenceManager.getString(Constants.USER_NAME));
-//        }
         getUserInfo();
+        getTips();
     }
 
     private void getUserInfo() {
@@ -73,4 +75,9 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    public void getTips() {
+        tipsViewModel.getTips().observe(getViewLifecycleOwner(), tipsResponse -> textTips.setText(tipsResponse.getTips().getTips()));
+    }
+
 }

@@ -477,12 +477,12 @@
                     app:layout_constraintTop_toTopOf="@id/textTips"/>
 
                 <TextView
+                    android:id="@+id/textHealthTips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:ellipsize="end"
                     android:maxLines="3"
-                    android:text="@string/dummy_hint"
                     android:fontFamily="@font/ubuntu_regular"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"

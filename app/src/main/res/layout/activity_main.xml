@@ -23,7 +23,7 @@
         app:cnb_menuResource="@menu/main_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/round_corners"
-        app:cnb_unselectedColor="@color/colorBlack"
+        app:cnb_unselectedColor="@color/colorWhite"
         app:cnb_orientationMode="horizontal"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
