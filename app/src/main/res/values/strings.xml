@@ -50,4 +50,8 @@
     <string name="age">Age</string>
     <string name="find_hospital_nearby">FIND HOSPITAL NEARBY</string>
     <string name="dashboard">Dashboard</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save">SAVE</string>
+    <string name="change_photo">CHANGE PHOTO</string>
+    <string name="fullname">FullName</string>
 </resources>

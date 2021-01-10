@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.robo101.patientmonitoringsystem.activity.EditProfileActivity;
 import com.robo101.patientmonitoringsystem.activity.MainActivity;
 import com.robo101.patientmonitoringsystem.model.User;
 import com.robo101.patientmonitoringsystem.R;
@@ -63,7 +64,13 @@ public class ProfileFragment extends Fragment {
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        buttonChangeProfileDetails.setOnClickListener(v -> Toast.makeText(getContext(), "Coming soooon!", Toast.LENGTH_SHORT).show());
+        buttonChangeProfileDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
         buttonSignOut.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
