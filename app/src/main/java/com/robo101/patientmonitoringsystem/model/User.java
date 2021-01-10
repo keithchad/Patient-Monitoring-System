@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Model;
+package com.robo101.patientmonitoringsystem.model;
 
 public class User {
 

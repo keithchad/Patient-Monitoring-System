@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Activity;
+package com.robo101.patientmonitoringsystem.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -10,11 +10,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-import com.robo101.patientmonitoringsystem.Fragment.HomeFragment;
-import com.robo101.patientmonitoringsystem.Fragment.MapsFragment;
-import com.robo101.patientmonitoringsystem.Fragment.ProfileFragment;
+import com.robo101.patientmonitoringsystem.fragment.HomeFragment;
+import com.robo101.patientmonitoringsystem.fragment.MapsFragment;
+import com.robo101.patientmonitoringsystem.fragment.ProfileFragment;
 import com.robo101.patientmonitoringsystem.R;
 
 public class MainActivity extends AppCompatActivity {

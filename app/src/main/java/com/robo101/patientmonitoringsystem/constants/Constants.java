@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Constants;
+package com.robo101.patientmonitoringsystem.constants;
 
 public class Constants {
 

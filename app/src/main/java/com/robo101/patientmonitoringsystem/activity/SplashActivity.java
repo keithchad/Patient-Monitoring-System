@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Activity;
+package com.robo101.patientmonitoringsystem.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,8 @@ import android.os.Looper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.robo101.patientmonitoringsystem.Authentication.PhoneOTPActivity;
+import com.robo101.patientmonitoringsystem.authentication.PhoneOTPActivity;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.Utils.PreferenceManager;
 
 public class SplashActivity extends AppCompatActivity {
 

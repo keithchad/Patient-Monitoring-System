@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Fragment;
+package com.robo101.patientmonitoringsystem.fragment;
 
 import android.os.Bundle;
 
@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.robo101.patientmonitoringsystem.Model.User;
+import com.robo101.patientmonitoringsystem.model.User;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.viewmodel.TipsViewModel;
 

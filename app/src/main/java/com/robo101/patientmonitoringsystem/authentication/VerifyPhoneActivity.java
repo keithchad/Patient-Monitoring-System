@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Authentication;
+package com.robo101.patientmonitoringsystem.authentication;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -27,10 +27,10 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.robo101.patientmonitoringsystem.Activity.MainActivity;
-import com.robo101.patientmonitoringsystem.Constants.Constants;
+import com.robo101.patientmonitoringsystem.activity.MainActivity;
+import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.Utils.PreferenceManager;
+import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

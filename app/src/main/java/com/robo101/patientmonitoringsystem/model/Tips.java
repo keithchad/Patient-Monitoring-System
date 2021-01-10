@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Model;
+package com.robo101.patientmonitoringsystem.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

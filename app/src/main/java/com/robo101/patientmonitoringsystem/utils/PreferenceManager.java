@@ -1,9 +1,9 @@
-package com.robo101.patientmonitoringsystem.Utils;
+package com.robo101.patientmonitoringsystem.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.robo101.patientmonitoringsystem.Constants.Constants;
+import com.robo101.patientmonitoringsystem.constants.Constants;
 
 public class PreferenceManager {
 

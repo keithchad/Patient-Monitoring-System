@@ -5,7 +5,7 @@
     android:id="@+id/scrollViewVerify"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Authentication.VerifyPhoneActivity">
+    tools:context=".authentication.VerifyPhoneActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

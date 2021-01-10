@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.Authentication;
+package com.robo101.patientmonitoringsystem.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.robo101.patientmonitoringsystem.Constants.Constants;
+import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.R;
 
 import java.util.Objects;
