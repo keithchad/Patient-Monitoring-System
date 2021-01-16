@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PatientMonitoringSystem">
-        <activity android:name=".activity.EditProfileActivity"></activity>
+        <activity android:name=".authentication.doctor.EmailLoginActivity"></activity>
+        <activity android:name=".authentication.doctor.EmailRegisterActivity" />
+        <activity android:name=".activity.doctor.EditProfileActivity" />
+        <activity android:name=".activity.doctor.MainActivity" />
+        <activity android:name=".activity.patient.EditProfileActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -27,13 +31,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".authentication.VerifyPhoneActivity"
+            android:name=".authentication.patient.VerifyPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".authentication.PhoneOTPActivity"
+            android:name=".authentication.patient.PhoneOTPActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.patient.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -17,7 +17,7 @@ public class TipsRepository {
     private final ApiService apiService;
 
     public TipsRepository() {
-        apiService = ApiClient.getRetrofit().create(
+        apiService = ApiClient.getTipsRetrofit().create(
                 ApiService.class);
     }
 

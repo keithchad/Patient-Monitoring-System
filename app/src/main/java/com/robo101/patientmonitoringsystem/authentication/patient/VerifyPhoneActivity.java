@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.authentication;
+package com.robo101.patientmonitoringsystem.authentication.patient;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -27,7 +27,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.robo101.patientmonitoringsystem.activity.MainActivity;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivity;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
@@ -134,7 +134,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private void openDialog() {
 
         Dialog dialog = new Dialog(this, R.style.FullScreenDialogTheme);
-        dialog.setContentView(R.layout.name_dialog_layout);
+        dialog.setContentView(R.layout.patient_details_dialog_layout);
         dialog.show();
         dialog.setCancelable(false);
 

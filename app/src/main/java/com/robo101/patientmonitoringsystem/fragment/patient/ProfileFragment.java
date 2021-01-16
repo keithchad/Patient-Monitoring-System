@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.fragment;
+package com.robo101.patientmonitoringsystem.fragment.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,9 +20,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.robo101.patientmonitoringsystem.activity.EditProfileActivity;
-import com.robo101.patientmonitoringsystem.activity.MainActivity;
-import com.robo101.patientmonitoringsystem.model.User;
+import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivity;
+import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
@@ -45,7 +44,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_patient, container, false);
         initialize(view);
         return view;
     }
@@ -88,15 +87,15 @@ public class ProfileFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if (user != null) {
-                    textUsername.setText(user.getName());
-                    textUserNameTop.setText(user.getName());
-                    textBirthday.setText(user.getBirthday());
-                    textGender.setText(user.getGender());
-                    textAge.setText(user.getAge());
-                    textNumber.setText(user.getPhoneNumber());
-                    Glide.with(Objects.requireNonNull(getContext())).load(user.getImageUrl()).into(imageProfile);
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    textUsername.setText(userPatient.getName());
+                    textUserNameTop.setText(userPatient.getName());
+                    textBirthday.setText(userPatient.getBirthday());
+                    textGender.setText(userPatient.getGender());
+                    textAge.setText(userPatient.getAge());
+                    textNumber.setText(userPatient.getPhoneNumber());
+                    Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
                 }
             }
 

@@ -6,6 +6,8 @@
 
     <color name="colorBlack">#FF000000</color>
     <color name="colorWhite">#FFFFFFFF</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorHintText">#BDBDBD</color>
     <color name="colorDivider">#D6D6D6</color>
     <color name="colorBackground">#EBEBEB</color>
     <color name="startColor">#294CF8</color>

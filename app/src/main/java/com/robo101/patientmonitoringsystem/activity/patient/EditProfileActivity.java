@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.activity;
+package com.robo101.patientmonitoringsystem.activity.patient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.constants.Constants;
-import com.robo101.patientmonitoringsystem.model.User;
+import com.robo101.patientmonitoringsystem.model.User_Patient;
 
 import java.util.HashMap;
 
@@ -52,7 +52,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_edit_profile_patient);
     }
 
     private void initialize() {
@@ -93,12 +93,12 @@ public class EditProfileActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if (user != null) {
-                    edittextFullname.setText(user.getName());
-                    edittextBirthdayEditProfile.setText(user.getBirthday());
-                    edittextAgeEditProfile.setText(user.getAge());
-                    Glide.with(EditProfileActivity.this).load(user.getImageUrl()).into(imageProfile);
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    edittextFullname.setText(userPatient.getName());
+                    edittextBirthdayEditProfile.setText(userPatient.getBirthday());
+                    edittextAgeEditProfile.setText(userPatient.getAge());
+                    Glide.with(EditProfileActivity.this).load(userPatient.getImageUrl()).into(imageProfile);
                 }
             }
 

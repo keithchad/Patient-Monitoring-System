@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.fragment;
+package com.robo101.patientmonitoringsystem.fragment.patient;
 
 import android.os.Bundle;
 
@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.robo101.patientmonitoringsystem.model.User;
+import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.viewmodel.TipsViewModel;
 
@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_patient, container, false);
         initialize(view);
         return view;
     }
@@ -62,10 +62,10 @@ public class HomeFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if (user != null) {
-                    Glide.with(Objects.requireNonNull(getContext())).load(user.getImageUrl()).into(imageProfile);
-                    textUsername.setText(user.getName());
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+                    textUsername.setText(userPatient.getName());
                 }
             }
 

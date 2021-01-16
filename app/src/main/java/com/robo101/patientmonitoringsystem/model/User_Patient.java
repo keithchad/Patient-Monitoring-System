@@ -1,6 +1,6 @@
 package com.robo101.patientmonitoringsystem.model;
 
-public class User {
+public class User_Patient {
 
     private String name;
     private String imageUrl;
@@ -9,9 +9,9 @@ public class User {
     private String gender;
     private String age;
 
-    public User() {}
+    public User_Patient() {}
 
-    public User(String name, String imageUrl, String phoneNumber, String birthday, String gender, String age) {
+    public User_Patient(String name, String imageUrl, String phoneNumber, String birthday, String gender, String age) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;

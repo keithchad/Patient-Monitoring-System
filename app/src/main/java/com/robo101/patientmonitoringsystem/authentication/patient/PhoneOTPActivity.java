@@ -1,10 +1,11 @@
-package com.robo101.patientmonitoringsystem.authentication;
+package com.robo101.patientmonitoringsystem.authentication.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.robo101.patientmonitoringsystem.authentication.doctor.EmailRegisterActivity;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.R;
 
@@ -39,11 +41,16 @@ public class PhoneOTPActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-
+        TextView textDoctor = findViewById(R.id.textDoctor);
         scrollView = findViewById(R.id.scrollView);
         editTextNumber = findViewById(R.id.edittextInputNumber);
         buttonGetOTP = findViewById(R.id.buttonGetOTP);
         progressBar = findViewById(R.id.progressBar);
+
+        textDoctor.setOnClickListener(v -> {
+            Intent intent = new Intent(PhoneOTPActivity.this, EmailRegisterActivity.class);
+            startActivity(intent);
+        });
 
         firebaseAuth = FirebaseAuth.getInstance();
 
