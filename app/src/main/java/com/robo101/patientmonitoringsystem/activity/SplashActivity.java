@@ -9,9 +9,12 @@ import android.os.Looper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.robo101.patientmonitoringsystem.activity.patient.MainActivity;
+import com.robo101.patientmonitoringsystem.activity.doctor.MainActivityDoctor;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.authentication.patient.PhoneOTPActivity;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.constants.Constants;
+import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -25,11 +28,16 @@ public class SplashActivity extends AppCompatActivity {
     private void initialize() {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        PreferenceManager preferenceManager = new PreferenceManager(this);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent;
             if (firebaseUser != null) {
-                intent = new Intent(this, MainActivity.class);
+                if (preferenceManager.getBoolean(Constants.IS_LOGGED_IN).equals(true)) {
+                    intent = new Intent(this, MainActivityPatient.class);
+                } else {
+                    intent = new Intent(this, MainActivityDoctor.class);
+                }
             } else {
                 intent = new Intent(this, PhoneOTPActivity.class);
             }
