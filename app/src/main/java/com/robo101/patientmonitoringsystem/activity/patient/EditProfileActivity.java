@@ -155,7 +155,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     textSave.setVisibility(View.VISIBLE);
 
-                    startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
+                    startActivity(new Intent(EditProfileActivity.this, MainActivityPatient.class));
                     finish();
                 } else {
                     progressBar.setVisibility(View.GONE);

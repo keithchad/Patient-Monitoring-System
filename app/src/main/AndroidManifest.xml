@@ -16,7 +16,7 @@
         <activity android:name=".authentication.doctor.EmailLoginActivity"></activity>
         <activity android:name=".authentication.doctor.EmailRegisterActivity" />
         <activity android:name=".activity.doctor.EditProfileActivity" />
-        <activity android:name=".activity.doctor.MainActivity" />
+        <activity android:name=".activity.doctor.MainActivityDoctor" />
         <activity android:name=".activity.patient.EditProfileActivity" />
 
         <meta-data
@@ -37,7 +37,7 @@
             android:name=".authentication.patient.PhoneOTPActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.patient.MainActivity"
+            android:name=".activity.patient.MainActivityPatient"
             android:screenOrientation="portrait" />
     </application>
 

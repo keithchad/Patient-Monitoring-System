@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.activity.doctor.MainActivity;
+import com.robo101.patientmonitoringsystem.activity.doctor.MainActivityDoctor;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 
 import java.util.HashMap;
@@ -124,7 +124,7 @@ public class EmailRegisterActivity extends AppCompatActivity {
                                 buttonSignUp.setVisibility(View.VISIBLE);
                                 signUpProgressBar.setVisibility(View.GONE);
                                 if (referenceTask.isSuccessful()) {
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivityDoctor.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                 }

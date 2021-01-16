@@ -1,28 +1,31 @@
-package com.robo101.patientmonitoringsystem.activity.doctor;
+package com.robo101.patientmonitoringsystem.activity.patient;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.fragment.doctor.HomeFragmentDoctor;
-import com.robo101.patientmonitoringsystem.fragment.doctor.NotificationFragmentDoctor;
-import com.robo101.patientmonitoringsystem.fragment.doctor.ProfileFragmentDoctor;
 import com.robo101.patientmonitoringsystem.fragment.patient.HomeFragment;
+import com.robo101.patientmonitoringsystem.fragment.patient.MapsFragment;
+import com.robo101.patientmonitoringsystem.fragment.patient.ProfileFragment;
+import com.robo101.patientmonitoringsystem.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityPatient extends AppCompatActivity {
 
     private Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_patient);
         initialize();
+
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorWhite));
     }
 
@@ -39,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private final ChipNavigationBar.OnItemSelectedListener onItemSelectedListener = i -> {
         switch (i) {
             case R.id.home_menu:
-                selectedFragment = new HomeFragmentDoctor();
+                selectedFragment = new HomeFragment();
                 break;
             case R.id.maps_menu:
-                selectedFragment = new NotificationFragmentDoctor();
+                selectedFragment = new MapsFragment();
                 break;
             case R.id.settings_menu:
-                selectedFragment = new ProfileFragmentDoctor();
+                selectedFragment = new ProfileFragment();
                 break;
         }
         if (selectedFragment != null) {

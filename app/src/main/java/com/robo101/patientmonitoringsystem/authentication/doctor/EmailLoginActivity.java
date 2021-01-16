@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.activity.doctor.MainActivity;
+import com.robo101.patientmonitoringsystem.activity.doctor.MainActivityDoctor;
 
 public class EmailLoginActivity extends AppCompatActivity {
 
@@ -69,7 +69,7 @@ public class EmailLoginActivity extends AppCompatActivity {
                     buttonSignIn.setVisibility(View.VISIBLE);
                     signInProgressBar.setVisibility(View.INVISIBLE);
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(EmailLoginActivity.this, MainActivityDoctor.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }

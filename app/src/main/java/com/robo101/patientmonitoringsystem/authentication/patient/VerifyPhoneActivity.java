@@ -27,7 +27,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.robo101.patientmonitoringsystem.activity.patient.MainActivity;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
@@ -228,7 +228,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                                 preferenceManager.putString(Constants.USER_NAME, name);
                                 preferenceManager.putBoolean(Constants.IS_LOGGED_IN, true);
 
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), MainActivityPatient.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }
