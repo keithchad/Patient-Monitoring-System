@@ -442,6 +442,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutTips"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="22dp"
@@ -467,6 +468,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <ImageView
+                    android:id="@+id/imageRefresh"
                     android:layout_width="35dp"
                     android:layout_height="30dp"
                     android:contentDescription="@string/app_name"

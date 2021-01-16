@@ -1,5 +1,6 @@
 package com.robo101.patientmonitoringsystem.fragment.doctor;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,13 +20,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.adapter.DoctorAdapter;
+import com.robo101.patientmonitoringsystem.constants.Constants;
+import com.robo101.patientmonitoringsystem.listeners.OnPatientClicked;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragmentDoctor extends Fragment {
+public class HomeFragmentDoctor extends Fragment implements OnPatientClicked {
 
     private List<User_Patient> list;
     private DoctorAdapter doctorAdapter;
@@ -47,7 +51,7 @@ public class HomeFragmentDoctor extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         list = new ArrayList<>();
-        doctorAdapter = new DoctorAdapter(getContext(), list);
+        doctorAdapter = new DoctorAdapter(getContext(), list, this);
 
         recyclerView.setAdapter(doctorAdapter);
 
@@ -74,5 +78,12 @@ public class HomeFragmentDoctor extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onPatientClicked(User_Patient userPatient) {
+        Intent intent = new Intent(getContext(), MainActivityPatient.class);
+        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
+        startActivity(intent);
     }
 }

@@ -2,6 +2,7 @@ package com.robo101.patientmonitoringsystem.model;
 
 public class User_Patient {
 
+    private String userId;
     private String name;
     private String imageUrl;
     private String phoneNumber;
@@ -11,13 +12,22 @@ public class User_Patient {
 
     public User_Patient() {}
 
-    public User_Patient(String name, String imageUrl, String phoneNumber, String birthday, String gender, String age) {
+    public User_Patient(String userId, String name, String imageUrl, String phoneNumber, String birthday, String gender, String age) {
+        this.userId = userId;
         this.name = name;
         this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.gender = gender;
         this.age = age;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
