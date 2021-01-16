@@ -101,9 +101,15 @@ public class EmailRegisterActivity extends AppCompatActivity {
 
                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                        String userId = firebaseUser.getUid();
+                        String userId = null;
+                        if (firebaseUser != null) {
+                            userId = firebaseUser.getUid();
+                        }
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(userId);
+                        DatabaseReference reference = null;
+                        if (userId != null) {
+                            reference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(userId);
+                        }
 
                         HashMap<String, Object> user = new HashMap<>();
                         user.put(Constants.USER_ID, userId);
@@ -113,19 +119,21 @@ public class EmailRegisterActivity extends AppCompatActivity {
                         user.put(Constants.HOSPITAL, inputHospital.getText().toString());
                         user.put(Constants.GENDER, inputGender.getText().toString());
 
-                        reference.setValue(user).addOnCompleteListener(referenceTask -> {
-                            buttonSignUp.setVisibility(View.VISIBLE);
-                            signUpProgressBar.setVisibility(View.GONE);
-                            if (referenceTask.isSuccessful()) {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                        }).addOnFailureListener(e -> {
-                            buttonSignUp.setVisibility(View.VISIBLE);
-                            signUpProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                        if (reference != null) {
+                            reference.setValue(user).addOnCompleteListener(referenceTask -> {
+                                buttonSignUp.setVisibility(View.VISIBLE);
+                                signUpProgressBar.setVisibility(View.GONE);
+                                if (referenceTask.isSuccessful()) {
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            }).addOnFailureListener(e -> {
+                                buttonSignUp.setVisibility(View.VISIBLE);
+                                signUpProgressBar.setVisibility(View.GONE);
+                                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                        }
                     }
                 }).addOnFailureListener(e -> {
                     buttonSignUp.setVisibility(View.VISIBLE);
