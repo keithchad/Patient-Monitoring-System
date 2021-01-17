@@ -54,7 +54,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollViewHome"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
@@ -115,6 +115,18 @@
                             app:layout_constraintStart_toEndOf="@id/imageHeart"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.75" />
+
+                        <ImageView
+                            android:id="@+id/redDotHeart"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/red_dot"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="4dp"
+                            app:layout_constraintTop_toTopOf="@+id/textView"
+                            android:contentDescription="@string/app_name" />
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageView2"
@@ -206,6 +218,18 @@
                             app:layout_constraintStart_toEndOf="@id/imageBloodOxygenHeader"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.75" />
+
+                        <ImageView
+                            android:id="@+id/redDotOxygen"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/red_dot"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/textBloodOxygenHeader"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="4dp"
+                            app:layout_constraintTop_toTopOf="@+id/textBloodOxygenHeader"
+                            android:contentDescription="@string/app_name" />
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageBloodOxygen"
@@ -304,6 +328,18 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.75" />
 
+                        <ImageView
+                            android:id="@+id/redDotPressure"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/red_dot"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/textBloodPressureHeader"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="1dp"
+                            app:layout_constraintTop_toTopOf="@+id/textBloodPressureHeader"
+                            android:contentDescription="@string/app_name" />
+
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageBloodPressure"
                             android:layout_width="80dp"
@@ -393,6 +429,18 @@
                             app:layout_constraintStart_toEndOf="@id/imageTemp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.75" />
+
+                        <ImageView
+                            android:id="@+id/redDotTemperature"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/red_dot"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/textTemp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="4dp"
+                            app:layout_constraintTop_toTopOf="@+id/textTemp"
+                            android:contentDescription="@string/app_name" />
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageTemperature"
@@ -489,6 +537,16 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
                     app:layout_constraintTop_toBottomOf="@id/textTips"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBarTips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/textHealthTips"
+                    app:layout_constraintEnd_toEndOf="@+id/textHealthTips"
+                    app:layout_constraintStart_toStartOf="@+id/textHealthTips"
+                    app:layout_constraintTop_toTopOf="@+id/textHealthTips" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
