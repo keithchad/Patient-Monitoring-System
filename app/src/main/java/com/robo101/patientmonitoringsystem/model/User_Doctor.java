@@ -7,16 +7,18 @@ public class User_Doctor {
     private String gender;
     private String email;
     private String hospital;
+    private String specialization;
 
     public User_Doctor() {
     }
 
-    public User_Doctor(String name, String imageUrl, String gender, String email, String hospital) {
+    public User_Doctor(String name, String imageUrl, String gender, String email, String hospital, String specialization) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.gender = gender;
         this.email = email;
         this.hospital = hospital;
+        this.specialization = specialization;
     }
 
     public String getName() {
@@ -57,5 +59,13 @@ public class User_Doctor {
 
     public void setHospital(String hospital) {
         this.hospital = hospital;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 }

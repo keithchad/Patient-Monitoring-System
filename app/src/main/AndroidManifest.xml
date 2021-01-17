@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PatientMonitoringSystem">
-        <activity android:name=".authentication.doctor.EmailLoginActivity"></activity>
+        <activity android:name=".authentication.doctor.EmailLoginActivity"/>
         <activity android:name=".authentication.doctor.EmailRegisterActivity" />
         <activity android:name=".activity.doctor.EditProfileActivity" />
         <activity android:name=".activity.doctor.MainActivityDoctor" />
