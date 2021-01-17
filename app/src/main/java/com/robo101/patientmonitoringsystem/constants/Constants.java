@@ -18,6 +18,12 @@ public class Constants {
     public static final String AGE = "age";
     public static final String DUMMY_IMAGE = "https://firebasestorage.googleapis.com/v0/b/patient-monitoring-syste-c3a8f.appspot.com/o/dummy_profile.png?alt=media&token=6ebb7f75-b9ac-4a0a-abfa-0dc40a846c71";
 
+    //Database(Vitals)
+    public static final String HEARTBEAT = "heartBeat";
+    public static final String BLOOD_OXYGEN = "bloodOxygen";
+    public static final String BLOOD_PRESSURE = "bloodPressure";
+    public static final String BODY_TEMPERATURE = "bodyTemperature";
+
     //Shared Preferences
     public static final String KEY_PREFERENCE_NAME = "patientPrefs";
     public static final String USER_NAME = "userName";
