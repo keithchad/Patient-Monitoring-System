@@ -16,7 +16,7 @@
         android:theme="@style/Theme.PatientMonitoringSystem">
         <activity android:name=".authentication.doctor.EmailLoginActivity"/>
         <activity android:name=".authentication.doctor.EmailRegisterActivity" />
-        <activity android:name=".activity.doctor.EditProfileActivity" />
+        <activity android:name=".activity.doctor.EditProfileActivityDoctor" />
         <activity android:name=".activity.doctor.MainActivityDoctor" />
         <activity android:name=".activity.patient.EditProfileActivity" />
 

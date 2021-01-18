@@ -20,10 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
-import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
-import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.activity.SplashActivity;
+import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
+import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
 import java.util.Objects;
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
         buttonSignOut.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
 
-            Intent intent = new Intent(getContext(), MainActivityPatient.class);
+            Intent intent = new Intent(getContext(), SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 

@@ -31,8 +31,10 @@ public class EmailRegisterActivity extends AppCompatActivity {
     private EditText inputEmail;
     private EditText inputHospital;
     private EditText inputGender;
+    private EditText inputSpecialization;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
+
     private MaterialButton buttonSignUp;
     private ProgressBar signUpProgressBar;
 
@@ -54,6 +56,7 @@ public class EmailRegisterActivity extends AppCompatActivity {
         inputLastName = findViewById(R.id.inputLastName);
         inputGender = findViewById(R.id.inputGender);
         inputHospital = findViewById(R.id.inputHospital);
+        inputSpecialization = findViewById(R.id.inputSpecialization);
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
@@ -118,6 +121,7 @@ public class EmailRegisterActivity extends AppCompatActivity {
                         user.put(Constants.IMAGE_URL, Constants.DUMMY_IMAGE);
                         user.put(Constants.HOSPITAL, inputHospital.getText().toString());
                         user.put(Constants.GENDER, inputGender.getText().toString());
+                        user.put(Constants.SPECIALIZATION, inputSpecialization.getText().toString());
 
                         if (reference != null) {
                             reference.setValue(user).addOnCompleteListener(referenceTask -> {

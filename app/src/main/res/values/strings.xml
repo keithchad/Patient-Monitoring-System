@@ -72,4 +72,13 @@
     <string name="already_have_an_account">Already Have an Account?</string>
     <string name="hospital">Hospital</string>
     <string name="dummy_hospital">John Hopkins Hospital</string>
+    <string name="doctor_s_profile">DOCTOR\'S PROFILE</string>
+    <string name="patient_s_profile">PATIENT\'S PROFILE</string>
+    <string name="email_">Email:</string>
+    <string name="hospital_">Hospital:</string>
+    <string name="specialization_">Specialization:</string>
+    <string name="dummy_specialization">CardioVascular Diseases</string>
+    <string name="dummy_gender_">Female</string>
+    <string name="specialization">Specialization</string>
+    <string name="issue">Issue</string>
 </resources>

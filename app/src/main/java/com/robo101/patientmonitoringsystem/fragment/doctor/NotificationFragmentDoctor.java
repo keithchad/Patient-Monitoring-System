@@ -16,10 +16,10 @@ public class NotificationFragmentDoctor extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification_doctor, container, false);
-        initialize();
+        initialize(view);
         return view;
     }
 
-    private void initialize() {
+    private void initialize(View view) {
     }
 }

@@ -13,6 +13,7 @@ public class Constants {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String EMAIL = "email";
     public static final String HOSPITAL = "hospital";
+    public static final String SPECIALIZATION = "specialization";
     public static final String BIRTHDAY = "birthday";
     public static final String GENDER = "gender";
     public static final String AGE = "age";
