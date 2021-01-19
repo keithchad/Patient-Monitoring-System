@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent;
             if (firebaseUser != null) {
-                if (preferenceManager.getBoolean(Constants.IS_LOGGED_IN).equals(true)) {
+                if (preferenceManager.getBoolean( Constants.IS_LOGGED_IN ).equals(true)) {
                     intent = new Intent(this, MainActivityPatient.class);
                 } else {
                     intent = new Intent(this, MainActivityDoctor.class);

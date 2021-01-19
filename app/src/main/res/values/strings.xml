@@ -81,4 +81,5 @@
     <string name="dummy_gender_">Female</string>
     <string name="specialization">Specialization</string>
     <string name="issue">Issue</string>
+    <string name="notifications">Notifications</string>
 </resources>

@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.doctor.NotificationFragmentDoctor">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notifications"
+        android:textSize="20sp"
+        android:textAllCaps="true"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/ubuntu_bold"
+        android:gravity="center"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/notification_item"
+        android:layout_below="@id/text"
+        tools:itemCount="7"/>
 
-</FrameLayout>
+</RelativeLayout>

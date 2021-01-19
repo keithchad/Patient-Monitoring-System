@@ -27,9 +27,9 @@ public class MainActivityDoctor extends AppCompatActivity {
     }
 
     private void initialize() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerDoctor, new HomeFragmentDoctor()).commit();
 
-        ChipNavigationBar bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        ChipNavigationBar bottomNavigationView = findViewById(R.id.bottomNavigationViewDoctor);
         bottomNavigationView.setItemSelected(R.id.home_menu, true);
 
         bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
