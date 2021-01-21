@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.model.Notification;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
+import com.robo101.patientmonitoringsystem.model.Vitals;
 
 import java.util.List;
 
@@ -45,6 +46,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notification notification = list.get(position);
         getUserInfo(holder.imageProfile, holder.userName, notification.getUserId());
+        getIssueType(holder.textIssue, notification);
+        holder.textIssueName.setText(notification.getTextIssueName());
     }
 
     @Override
@@ -54,18 +57,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textIssue;
-        private TextView userName;
-        private TextView issueType;
+        private final TextView textIssueName;
+        private final TextView userName;
+        private final TextView textIssue;
 
-        private CircleImageView imageProfile;
+        private final CircleImageView imageProfile;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textIssue = itemView.findViewById(R.id.textIssue);
+            textIssueName = itemView.findViewById(R.id.textIssueName);
             userName = itemView.findViewById(R.id.textUserNameNotification);
-            issueType = itemView.findViewById(R.id.textIssueType);
+            textIssue = itemView.findViewById(R.id.textIssue);
             imageProfile = itemView.findViewById(R.id.imageProfileNotification);
         }
     }
@@ -92,13 +95,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
-    private void getIssueType(TextView textIssueType) {
+    private void getIssueType(TextView textIssue, Notification notification) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                Vitals vitals = snapshot.getValue(Vitals.class);
+                if (vitals != null) {
+                    if (notification.isHeartBeat()) {
+                        textIssue.setText(vitals.getHeartBeat());
+                    } else if (notification.isBloodOxygen()) {
+                        textIssue.setText(vitals.getBloodOxygen());
+                    } else if (notification.isBloodPressure()) {
+                        textIssue.setText(vitals.getBloodPressure());
+                    } else if(notification.isTemperature()) {
+                        textIssue.setText(vitals.getBodyTemperature());
+                    }
+                }
             }
 
             @Override

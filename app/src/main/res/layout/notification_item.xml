@@ -29,7 +29,7 @@
             android:textColor="@color/colorBlack"/>
 
         <TextView
-            android:id="@+id/textIssue"
+            android:id="@+id/textIssueName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/issue"
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textIssueType"
+        android:id="@+id/textIssue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sp02"
