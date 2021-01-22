@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayoutNotification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
@@ -17,7 +19,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@id/imageProfileNotification"
-        android:layout_toStartOf="@id/textIssueType">
+        android:layout_toStartOf="@id/textIssue">
 
         <TextView
             android:id="@+id/textUserNameNotification"
@@ -48,6 +50,7 @@
         android:fontFamily="@font/ubuntu_regular"
         android:textColor="@color/colorBlack"
         android:contentDescription="@string/app_name"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

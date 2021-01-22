@@ -1,9 +1,11 @@
 package com.robo101.patientmonitoringsystem.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
+import com.robo101.patientmonitoringsystem.constants.Constants;
+import com.robo101.patientmonitoringsystem.fragment.patient.ProfileFragment;
 import com.robo101.patientmonitoringsystem.model.Notification;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.model.Vitals;
@@ -48,6 +53,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         getUserInfo(holder.imageProfile, holder.userName, notification.getUserId());
         getIssueType(holder.textIssue, notification);
         holder.textIssueName.setText(notification.getTextIssueName());
+        holder.relativeLayout.setOnClickListener(v -> {
+
+            ((MainActivityPatient)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ProfileFragment());
+            SharedPreferences.Editor editor = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+            editor.putString(Constants.USER_ID, notification.getUserId());
+            editor.apply();
+
+        });
     }
 
     @Override
@@ -61,6 +74,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         private final TextView userName;
         private final TextView textIssue;
 
+        private final RelativeLayout relativeLayout;
+
         private final CircleImageView imageProfile;
 
         public ViewHolder(@NonNull View itemView) {
@@ -70,6 +85,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             userName = itemView.findViewById(R.id.textUserNameNotification);
             textIssue = itemView.findViewById(R.id.textIssue);
             imageProfile = itemView.findViewById(R.id.imageProfileNotification);
+            relativeLayout = itemView.findViewById(R.id.relativeLayoutNotification);
         }
     }
 

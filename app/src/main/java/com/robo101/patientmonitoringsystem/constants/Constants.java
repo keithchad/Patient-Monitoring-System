@@ -26,6 +26,12 @@ public class Constants {
     public static final String BLOOD_OXYGEN = "bloodOxygen";
     public static final String BLOOD_PRESSURE = "bloodPressure";
     public static final String BODY_TEMPERATURE = "bodyTemperature";
+    public static final String IS_HEARTBEAT = "isHeartBeat";
+    public static final String IS_BLOOD_OXYGEN = "isBloodOxygen";
+    public static final String IS_BLOOD_PRESSURE = "isBloodPressure";
+    public static final String IS_BODY_TEMPERATURE = "isBodyTemperature";
+    public static final String TEXT_ISSUE_NAME = "textIssueName";
+    public static final String TEXT_ISSUE = "textIssue";
 
     //Shared Preferences
     public static final String KEY_PREFERENCE_NAME = "patientPrefs";
@@ -62,6 +68,5 @@ public class Constants {
         headers.put(Constants.REMOTE_MSG_CONTENT_TYPE, "application/json");
         return headers;
     }
-
 
 }

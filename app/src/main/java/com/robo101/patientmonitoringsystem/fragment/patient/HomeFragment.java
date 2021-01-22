@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,10 +28,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.constants.Constants;
+import com.robo101.patientmonitoringsystem.model.Notification;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.model.Vitals;
 import com.robo101.patientmonitoringsystem.viewmodel.TipsViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -40,6 +45,7 @@ public class HomeFragment extends Fragment {
     private ImageView redDotOxygen;
     private ImageView redDotPressure;
     private ImageView redDotTemperature;
+    private Vitals vitals;
 
     private FirebaseUser firebaseUser;
 
@@ -113,11 +119,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void getVitals() {
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Vitals vitals = snapshot.getValue(Vitals.class);
+                vitals = snapshot.getValue(Vitals.class);
                 if (vitals != null) {
                     textHeartRate.setText(vitals.getHeartBeat());
                     textBloodOxygen.setText(vitals.getBloodOxygen());
@@ -125,20 +132,26 @@ public class HomeFragment extends Fragment {
                     textTemperature.setText(vitals.getBodyTemperature());
                 }
 
-                if (vitals.getHeartBeat() <= 60) {
-                    redDotHeart.setVisibility(View.VISIBLE);
-                } else if (vitals.getBloodOxygen() <= 20) {
-                    redDotOxygen.setVisibility(View.VISIBLE);
-                } else if (vitals.getBloodPressure() <= 120) {
-                    redDotPressure.setVisibility(View.VISIBLE);
-                } else if (vitals.getBodyTemperature() <= 30) {
-                    redDotTemperature.setVisibility(View.VISIBLE);
+                if (vitals != null) {
+                    if (vitals.getHeartBeat() <= 60) {
+                        redDotHeart.setVisibility(View.VISIBLE);
+                        addNotificationHeartBeat(firebaseUser.getUid() , vitals);
+                    } else if (vitals.getBloodOxygen() <= 20) {
+                        redDotOxygen.setVisibility(View.VISIBLE);
+                        addNotificationBloodOxygen(firebaseUser.getUid(), vitals);
+                    } else if (vitals.getBloodPressure() <= 120) {
+                        redDotPressure.setVisibility(View.VISIBLE);
+                        addNotificationBloodPressure(firebaseUser.getUid(), vitals);
+                    } else if (vitals.getBodyTemperature() <= 30) {
+                        redDotTemperature.setVisibility(View.VISIBLE);
+                        addNotificationBodyTemperature(firebaseUser.getUid(), vitals);
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -182,6 +195,70 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void addNotificationHeartBeat(String userId, @NotNull Vitals vitals) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification").child(userId);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Constants.USER_ID, userId);
+        hashMap.put(Constants.TEXT_ISSUE_NAME, "The patient's heartbeat is " + vitals.getHeartBeat());
+        hashMap.put(Constants.TEXT_ISSUE, vitals.getHeartBeat());
+        hashMap.put(Constants.IS_HEARTBEAT, true);
+        hashMap.put(Constants.IS_BLOOD_PRESSURE, false);
+        hashMap.put(Constants.IS_BODY_TEMPERATURE, true);
+        hashMap.put(Constants.IS_BLOOD_OXYGEN, false);
+
+        reference.setValue(hashMap);
+    }
+
+    private void addNotificationBloodOxygen(String userId, Vitals vitals) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification").child(userId);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Constants.USER_ID, userId);
+        hashMap.put(Constants.TEXT_ISSUE_NAME, "The patient's Blood Oxygen is " + vitals.getBloodOxygen());
+        hashMap.put(Constants.TEXT_ISSUE, vitals.getBloodOxygen());
+        hashMap.put(Constants.IS_HEARTBEAT, false);
+        hashMap.put(Constants.IS_BLOOD_PRESSURE, false);
+        hashMap.put(Constants.IS_BODY_TEMPERATURE, false);
+        hashMap.put(Constants.IS_BLOOD_OXYGEN, true);
+
+        reference.setValue(hashMap);
+    }
+
+    private void addNotificationBodyTemperature(String userId, Vitals vitals) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification").child(userId);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Constants.USER_ID, userId);
+        hashMap.put(Constants.TEXT_ISSUE_NAME, "The patient's Body Temperature is " + vitals.getBodyTemperature());
+        hashMap.put(Constants.TEXT_ISSUE, vitals.getBodyTemperature());
+        hashMap.put(Constants.IS_HEARTBEAT, false);
+        hashMap.put(Constants.IS_BLOOD_PRESSURE, false);
+        hashMap.put(Constants.IS_BODY_TEMPERATURE, true);
+        hashMap.put(Constants.IS_BLOOD_OXYGEN, false);
+
+        reference.setValue(hashMap);
+    }
+
+    private void addNotificationBloodPressure(String userId, Vitals vitals) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification").child(userId);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Constants.USER_ID, userId);
+        hashMap.put(Constants.TEXT_ISSUE_NAME, "The patient's Blood Pressure is " + vitals.getBloodPressure());
+        hashMap.put(Constants.TEXT_ISSUE, vitals.getBloodPressure());
+        hashMap.put(Constants.IS_HEARTBEAT, false);
+        hashMap.put(Constants.IS_BLOOD_PRESSURE, true);
+        hashMap.put(Constants.IS_BODY_TEMPERATURE, false);
+        hashMap.put(Constants.IS_BLOOD_OXYGEN, false);
+
+        reference.setValue(hashMap);
     }
 
     public void getTips() {
