@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
         redDotTemperature = view.findViewById(R.id.redDotTemperature);
 
         tipsViewModel = new ViewModelProvider(this).get(TipsViewModel.class);
-        patientId = getActivity().getIntent().getStringExtra(Constants.USER_ID);
+        patientId = getArguments().getString(Constants.USER_ID);
 
         imageRefresh.setOnClickListener(v -> getTips());
 
@@ -158,7 +158,24 @@ public class HomeFragment extends Fragment {
 
     private void getUserInfo() {
 
-        if (getActivity().getIntent().hasExtra(Constants.USER_ID)) {
+        if (getArguments().isEmpty()) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                    if (userPatient != null) {
+                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+                        textUsername.setText(userPatient.getName());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        } else {
             layoutTips.setVisibility(View.GONE);
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(patientId);
             reference.addValueEventListener(new ValueEventListener() {
@@ -176,26 +193,10 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-
-        } else {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User_Patient userPatient = snapshot.getValue(User_Patient.class);
-                    if (userPatient != null) {
-                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
-                        textUsername.setText(userPatient.getName());
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
         }
     }
+
+
 
     private void addNotificationHeartBeat(String userId, @NotNull Vitals vitals) {
 

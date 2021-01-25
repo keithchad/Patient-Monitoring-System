@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
+import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
@@ -37,6 +38,8 @@ public class ProfileFragment extends Fragment {
     private TextView textAge;
     private TextView textNumber;
     private ImageView imageProfile;
+
+    private String userId;
 
     private PreferenceManager preferenceManager;
     private FirebaseUser firebaseUser;
@@ -57,6 +60,7 @@ public class ProfileFragment extends Fragment {
         textAge = view.findViewById(R.id.textAge);
         textNumber = view.findViewById(R.id.textUserNumber);
         imageProfile = view.findViewById(R.id.imageProfileProfile);
+        userId = getArguments().getString(Constants.USER_ID);
 
         MaterialButton buttonSignOut = view.findViewById(R.id.buttonSignOut);
         MaterialButton buttonChangeProfileDetails = view.findViewById(R.id.buttonChangeProfileDetails);
@@ -82,27 +86,55 @@ public class ProfileFragment extends Fragment {
 
     private void getUserInfo() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User_Patient userPatient = snapshot.getValue(User_Patient.class);
-                if (userPatient != null) {
-                    textUsername.setText(userPatient.getName());
-                    textUserNameTop.setText(userPatient.getName());
-                    textBirthday.setText(userPatient.getBirthday());
-                    textGender.setText(userPatient.getGender());
-                    textAge.setText(userPatient.getAge());
-                    textNumber.setText(userPatient.getPhoneNumber());
-                    Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+        if (getArguments().isEmpty()) {
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                    if (userPatient != null) {
+                        textUsername.setText(userPatient.getName());
+                        textUserNameTop.setText(userPatient.getName());
+                        textBirthday.setText(userPatient.getBirthday());
+                        textGender.setText(userPatient.getGender());
+                        textAge.setText(userPatient.getAge());
+                        textNumber.setText(userPatient.getPhoneNumber());
+                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+
+        } else {
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                    if (userPatient != null) {
+                        textUsername.setText(userPatient.getName());
+                        textUserNameTop.setText(userPatient.getName());
+                        textBirthday.setText(userPatient.getBirthday());
+                        textGender.setText(userPatient.getGender());
+                        textAge.setText(userPatient.getAge());
+                        textNumber.setText(userPatient.getPhoneNumber());
+                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
     }
 
 }

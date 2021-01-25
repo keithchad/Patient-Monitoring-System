@@ -49,12 +49,18 @@ public class MainActivityPatient extends AppCompatActivity {
                 selectedFragment = new HomeFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.USER_ID, userId);
+                Fragment fragment = new Fragment();
+                fragment.setArguments(bundle);
                 break;
             case R.id.maps_menu:
                 selectedFragment = new MapsFragment();
                 break;
             case R.id.settings_menu:
                 selectedFragment = new ProfileFragment();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString(Constants.USER_ID, userId);
+                Fragment fragment2 = new Fragment();
+                fragment2.setArguments(bundle2);
                 break;
         }
         if (selectedFragment != null) {
