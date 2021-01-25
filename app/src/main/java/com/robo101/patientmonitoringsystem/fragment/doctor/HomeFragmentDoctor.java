@@ -43,7 +43,6 @@ public class HomeFragmentDoctor extends Fragment implements OnPatientClicked {
     }
 
     private void initialize(View view) {
-
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
