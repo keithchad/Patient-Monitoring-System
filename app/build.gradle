@@ -92,7 +92,7 @@ dependencies {
     //Lifecycle(LiveData and ViewModel)
     implementation  "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
-    //Jitsi Meet
-    implementation ('org.jitsi.react:jitsi-meet-sdk:') { transitive = true }
+    // Jitsi Meet
+    implementation ('org.jitsi.react:jitsi-meet-sdk:2.10.0') { transitive = true }
 
 }
