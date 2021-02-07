@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.TESTS;
+package com.robo101.patientmonitoringsystem.calls;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,8 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.api.messageapi.APIClient;
+import com.robo101.patientmonitoringsystem.api.messageapi.APIService;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -33,12 +37,10 @@ public class IncomingInvitationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incoming_invitation);
-
         initialize();
     }
 
     private void initialize() {
-
         ImageView imageMeetingType = findViewById(R.id.imageMeetingType);
         ImageView imageAcceptInvitation = findViewById(R.id.imageAcceptInvitation);
         ImageView imageRejectInvitation = findViewById(R.id.imageRejectInvitation);
@@ -48,18 +50,10 @@ public class IncomingInvitationActivity extends AppCompatActivity {
         TextView textEmail = findViewById(R.id.textEmail);
 
         meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
-        String firstName = getIntent().getStringExtra(Constants.KEY_FIRST_NAME);
 
-        String username = String.format("%s %s", firstName,
-                getIntent().getStringExtra(Constants.KEY_LAST_NAME));
-        String email = getIntent().getStringExtra(Constants.KEY_EMAIL);
+        String username = getIntent().getStringExtra(Constants.NAME);
 
         textUsername.setText(username);
-        textEmail.setText(email);
-
-        if (firstName != null) {
-            textFirstChar.setText(firstName.substring(0,1));
-        }
 
         if (meetingType != null) {
             if (meetingType.equals("video")) {
@@ -143,7 +137,7 @@ public class IncomingInvitationActivity extends AppCompatActivity {
         });
     }
 
-    private final BroadcastReceiver invitationResponseReveiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
@@ -160,7 +154,7 @@ public class IncomingInvitationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
-                invitationResponseReveiver,
+                broadcastReceiver,
                 new IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
         );
     }
@@ -169,7 +163,7 @@ public class IncomingInvitationActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(
-                invitationResponseReveiver
+                broadcastReceiver
         );
     }
 }

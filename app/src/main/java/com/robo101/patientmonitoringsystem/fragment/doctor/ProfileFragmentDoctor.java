@@ -23,7 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
+import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.User_Doctor;
+import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
 import java.util.Objects;
@@ -81,6 +84,7 @@ public class ProfileFragmentDoctor extends Fragment {
 
             preferenceManager.clearPreferences();
         });
+
         getUserInfo();
     }
 

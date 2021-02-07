@@ -19,6 +19,7 @@ public class Constants {
     public static final String BIRTHDAY = "birthday";
     public static final String GENDER = "gender";
     public static final String AGE = "age";
+    public static final String FCM_TOKEN = "fcm_token";
     public static final String DUMMY_IMAGE = "https://firebasestorage.googleapis.com/v0/b/patient-monitoring-syste-c3a8f.appspot.com/o/dummy_profile.png?alt=media&token=6ebb7f75-b9ac-4a0a-abfa-0dc40a846c71";
 
     //Database(Vitals)
@@ -63,7 +64,7 @@ public class Constants {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(
                 Constants.REMOTE_MSG_AUTHORIZATION,
-                ""
+                "AAAAoCwBFYI:APA91bE_20gw58z9Sjb6ceWIBbd0Rkc-bbYkmCeqkP7CDWMke3MaGKT2Q4QywyCs3Jv2tLPmi082yQFBVdQsKqzJbh8gm3XvOedcU7ahBILTjhS9ixYpXS4BsnmjYi5d76-0EjRef5QC"
         );
         headers.put(Constants.REMOTE_MSG_CONTENT_TYPE, "application/json");
         return headers;

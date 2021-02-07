@@ -1,33 +1,33 @@
-package com.robo101.patientmonitoringsystem.TESTS;
+package com.robo101.patientmonitoringsystem.calls;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.api.messageapi.APIClient;
+import com.robo101.patientmonitoringsystem.api.messageapi.APIService;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -42,11 +42,12 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     TextView textUsername;
     TextView textEmail;
 
-    private PreferenceManager preferenceManager;
-
     private String inviterToken = null;
     private String meetingRoom = null;
     private String meetingType = null;
+    private String userName = null;
+    private String userId = null;
+    private String userToken = null;
 
     private int rejectionCount = 0;
     private  int totalReceivers = 0;
@@ -67,18 +68,14 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         textUsername = findViewById(R.id.textUsername);
         textEmail = findViewById(R.id.textEmail);
 
-        preferenceManager  = new PreferenceManager(getApplicationContext());
         meetingType = getIntent().getStringExtra("type");
 
-        User user = (User) getIntent().getSerializableExtra("user");
+        userName = getIntent().getStringExtra(Constants.NAME);
+        userToken = getIntent().getStringExtra(Constants.FCM_TOKEN);
+        userId = getIntent().getStringExtra(Constants.USER_ID);
 
-        if (user != null) {
-            String username = String.format("%s %s", user.firstName, user.lastName);
-
-            textFirstChar.setText(user.firstName.substring(0, 1));
-            textUsername.setText(username);
-            textEmail.setText(user.email);
-        }
+        textFirstChar.setText(userName.substring(0, 1));
+        textUsername.setText(userName);
 
         if(meetingType != null) {
             if(meetingType.equals("video")) {
@@ -89,18 +86,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         }
 
         imageStopInvitation.setOnClickListener(v -> {
-
-            if(getIntent().getBooleanExtra("isMultiple", false)) {
-                Type type = new TypeToken<ArrayList<User>>(){}.getType();
-                ArrayList<User> receivers = new Gson().fromJson(getIntent().getStringExtra("selectedUsers"), type);
-                cancelInvitation(null, receivers);
-            }else {
-                if(user != null){
-                    cancelInvitation(user.token, null);
-                }
-            }
-
-
+            cancelInvitation(userToken);
         });
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
@@ -108,26 +94,15 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
                 inviterToken = task.getResult().getToken();
 
                 if (meetingType != null) {
-                    if(getIntent().getBooleanExtra("isMultiple", false)) {
-                        Type type = new TypeToken<ArrayList<User>>(){}.getType();
-                        ArrayList<User> receivers = new Gson().fromJson(getIntent().getStringExtra("selectedUsers"), type);
-                        if(receivers != null) {
-                            totalReceivers = receivers.size();
-                        }
-                        initiateMeeting(meetingType, null, receivers);
-                    }else {
-                        if (user != null) {
-                            totalReceivers = 1;
-                            initiateMeeting(meetingType, user.token, null);
-                        }
-                    }
+                   totalReceivers = 1;
+                   initiateMeeting(meetingType, userToken);
                 }
             }
         });
 
     }
 
-    private void initiateMeeting(String meetingType, String receiverToken, ArrayList<User> receivers) {
+    private void initiateMeeting(String meetingType, String receiverToken) {
         try {
             JSONArray tokens = new JSONArray();
 
@@ -135,30 +110,15 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
                 tokens.put(receiverToken);
             }
 
-            if (receivers != null && receivers.size() > 0) {
-                StringBuilder userNames = new StringBuilder();
-                for (int i = 0; i< receivers.size(); i++) {
-                    tokens.put(receivers.get(i).token);
-                    userNames.append(receivers.get(i).firstName).append(" ").append(receivers.get(i).lastName).append("\n");
-                }
-
-                textFirstChar.setVisibility(View.GONE);
-                textEmail.setVisibility(View.GONE);
-                textUsername.setText(userNames.toString());
-            }
-
-
             JSONObject body = new JSONObject();
             JSONObject data = new JSONObject();
 
             data.put(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_INVITATION);
             data.put(Constants.REMOTE_MSG_MEETING_TYPE, meetingType);
-            data.put(Constants.KEY_FIRST_NAME, preferenceManager.getString(Constants.KEY_FIRST_NAME));
-            data.put(Constants.KEY_LAST_NAME, preferenceManager.getString(Constants.KEY_LAST_NAME));
-            data.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
+            data.put(Constants.NAME, userName);
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken);
 
-            meetingRoom = preferenceManager.getString(Constants.KEY_USER_ID) + "_" +
+            meetingRoom = userId + "_" +
                     UUID.randomUUID().toString().substring(0, 5);
 
             data.put(Constants.REMOTE_MSG_MEETING_ROOM, meetingRoom);
@@ -201,7 +161,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         });
     }
 
-    private void cancelInvitation(String receiverToken, ArrayList<User> receivers) {
+    private void cancelInvitation(String receiverToken) {
         try {
 
             JSONArray tokens = new JSONArray();
@@ -209,14 +169,6 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             if (receiverToken != null) {
                 tokens.put(receiverToken);
             }
-
-            if (receivers != null && receivers.size() > 0) {
-
-                for (User user : receivers) {
-                    tokens.put(user.token);
-                }
-            }
-
 
             JSONObject body = new JSONObject();
             JSONObject data = new JSONObject();
@@ -235,7 +187,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         }
     }
 
-    private BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
@@ -292,9 +244,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     }
 
     private void setBarColors() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.colorMeetingInvitationEnd));
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorMeetingInvitationStart));
-        }
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorMeetingInvitationEnd));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorMeetingInvitationStart));
     }
 }

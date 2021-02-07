@@ -1,4 +1,4 @@
-package com.robo101.patientmonitoringsystem.api;
+package com.robo101.patientmonitoringsystem.api.tipsapi;
 
 import com.robo101.patientmonitoringsystem.response.TipsResponse;
 

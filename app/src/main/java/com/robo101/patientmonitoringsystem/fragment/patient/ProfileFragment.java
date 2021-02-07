@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
@@ -38,6 +40,9 @@ public class ProfileFragment extends Fragment {
     private TextView textAge;
     private TextView textNumber;
     private ImageView imageProfile;
+
+    private ImageView imageVideo;
+    private ImageView imageCall;
 
     private String userId;
 
@@ -60,7 +65,10 @@ public class ProfileFragment extends Fragment {
         textAge = view.findViewById(R.id.textAge);
         textNumber = view.findViewById(R.id.textUserNumber);
         imageProfile = view.findViewById(R.id.imageProfileProfile);
-        userId = getArguments().getString(Constants.USER_ID);
+
+        if (getArguments() != null) {
+            userId = getArguments().getString(Constants.USER_ID);
+        }
 
         MaterialButton buttonSignOut = view.findViewById(R.id.buttonSignOut);
         MaterialButton buttonChangeProfileDetails = view.findViewById(R.id.buttonChangeProfileDetails);
@@ -72,16 +80,92 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
-        buttonSignOut.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
+        imageVideo.setOnClickListener(v -> {
+            initiateVideoMeeting();
+        });
+
+        imageCall.setOnClickListener(v -> {
+            initiateCallMeeting();
+        });
+
+        buttonSignOut.setOnClickListener(v -> signOut());
+
+        getUserInfo();
+    }
+
+    private void initiateCallMeeting() {
+
+        Intent intent = new Intent(getContext(), MainActivityPatient.class);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    if(userPatient.getToken() == null || userPatient.getToken().trim().isEmpty()) {
+                        Toast.makeText(getContext(), userPatient.getName() + "is not Available", Toast.LENGTH_SHORT).show();
+                    } else {
+                        intent.putExtra(Constants.NAME, userPatient.getName());
+                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
+                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
+                        intent.putExtra("type", "audio");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        startActivity(intent);
+
+    }
+
+    private void initiateVideoMeeting() {
+
+        Intent intent = new Intent(getContext(), MainActivityPatient.class);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    if(userPatient.getToken() == null || userPatient.getToken().trim().isEmpty()) {
+                        Toast.makeText(getContext(), userPatient.getName() + "is not Available", Toast.LENGTH_SHORT).show();
+                    } else {
+                        intent.putExtra(Constants.NAME, userPatient.getName());
+                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
+                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
+                        intent.putExtra("type", "video");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        startActivity(intent);
+
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid()).child(Constants.FCM_TOKEN);
+        reference.removeValue().addOnSuccessListener(aVoid -> {
 
             Intent intent = new Intent(getContext(), SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
             preferenceManager.clearPreferences();
-        });
-        getUserInfo();
+
+        }).addOnFailureListener(e -> Toast.makeText(getContext(), "Unable to Sign Out", Toast.LENGTH_SHORT).show());
+
+
     }
 
     private void getUserInfo() {

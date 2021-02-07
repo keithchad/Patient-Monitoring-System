@@ -9,10 +9,11 @@ public class User_Patient {
     private String birthday;
     private String gender;
     private String age;
+    private String token;
 
     public User_Patient() {}
 
-    public User_Patient(String userId, String name, String imageUrl, String phoneNumber, String birthday, String gender, String age) {
+    public User_Patient(String userId, String name, String imageUrl, String phoneNumber, String birthday, String gender, String age, String token) {
         this.userId = userId;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -20,6 +21,7 @@ public class User_Patient {
         this.birthday = birthday;
         this.gender = gender;
         this.age = age;
+        this.token = token;
     }
 
     public String getUserId() {
@@ -76,5 +78,13 @@ public class User_Patient {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

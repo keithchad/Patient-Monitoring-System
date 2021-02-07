@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.Notification;
@@ -116,6 +119,13 @@ public class HomeFragment extends Fragment {
             textNoInternet.setVisibility(View.VISIBLE);
             imageNoInternet.setVisibility(View.VISIBLE);
         }
+
+      FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful() && task.getResult() != null) {
+                        sendFCMTokenToDatabase(task.getResult().getToken());
+                    }
+      });
     }
 
     private void getVitals() {
@@ -271,6 +281,21 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void sendFCMTokenToDatabase(String token) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Constants.FCM_TOKEN, token);
+
+        reference.updateChildren(hashMap).addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Token Updated Successfully", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Unable to send Token: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

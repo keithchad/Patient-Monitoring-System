@@ -4,8 +4,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.robo101.patientmonitoringsystem.api.ApiClient;
-import com.robo101.patientmonitoringsystem.api.ApiService;
+import com.robo101.patientmonitoringsystem.api.tipsapi.ApiClient;
+import com.robo101.patientmonitoringsystem.api.tipsapi.ApiService;
 import com.robo101.patientmonitoringsystem.response.TipsResponse;
 
 import retrofit2.Call;
