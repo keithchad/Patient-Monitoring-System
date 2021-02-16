@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
+import com.robo101.patientmonitoringsystem.activity.doctor.EditProfileActivityDoctor;
 import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
@@ -44,6 +46,12 @@ public class ProfileFragmentDoctor extends Fragment {
     private TextView textSpecialization;
     private ImageView imageProfile;
 
+    private String userId;
+
+    private ImageView imageVideo;
+    private ImageView imageCall;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,19 +69,35 @@ public class ProfileFragmentDoctor extends Fragment {
         textSpecialization = view.findViewById(R.id.textSpecializationDoctor);
         textEmail = view.findViewById(R.id.textEmailDoctor);
         imageProfile = view.findViewById(R.id.imageProfileProfileDoctor);
+        imageVideo = view.findViewById(R.id.imageVideoCallDoctor);
+        imageCall = view.findViewById(R.id.imageCallDoctor);
 
         MaterialButton buttonSignOut = view.findViewById(R.id.buttonSignOutDoctor);
         MaterialButton buttonChangeProfileDetails = view.findViewById(R.id.buttonChangeProfileDetailsDoctor);
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        if (preferenceManager.getString(Constants.USER_ID) != null) {
+            userId = preferenceManager.getString(Constants.USER_ID);
+            imageVideo.setVisibility(View.VISIBLE);
+            imageCall.setVisibility(View.VISIBLE);
+        }
+
         buttonChangeProfileDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), EditProfileActivity.class);
+            Intent intent = new Intent(getContext(), EditProfileActivityDoctor.class);
             startActivity(intent);
         });
 
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        imageVideo.setOnClickListener(v -> {
+            initiateVideoMeeting();
+        });
+
+        imageCall.setOnClickListener(v -> {
+            initiateCallMeeting();
+        });
 
         buttonSignOut.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
@@ -88,14 +112,74 @@ public class ProfileFragmentDoctor extends Fragment {
         getUserInfo();
     }
 
+    private void initiateCallMeeting() {
+
+        Intent intent = new Intent(getContext(), MainActivityPatient.class);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    if(userPatient.getToken() == null || userPatient.getToken().trim().isEmpty()) {
+                        Toast.makeText(getContext(), userPatient.getName() + "is not Available", Toast.LENGTH_SHORT).show();
+                    } else {
+                        intent.putExtra(Constants.NAME, userPatient.getName());
+                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
+                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
+                        intent.putExtra("type", "audio");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        startActivity(intent);
+
+    }
+
+    private void initiateVideoMeeting() {
+
+        Intent intent = new Intent(getContext(), MainActivityPatient.class);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User_Patient userPatient = snapshot.getValue(User_Patient.class);
+                if (userPatient != null) {
+                    if(userPatient.getToken() == null || userPatient.getToken().trim().isEmpty()) {
+                        Toast.makeText(getContext(), userPatient.getName() + "is not Available", Toast.LENGTH_SHORT).show();
+                    } else {
+                        intent.putExtra(Constants.NAME, userPatient.getName());
+                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
+                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
+                        intent.putExtra("type", "video");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        startActivity(intent);
+
+    }
+
     private void getUserInfo() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(firebaseUser.getUid());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctor").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User_Doctor userDoctor = snapshot.getValue(User_Doctor.class);
+
                 if (userDoctor != null) {
+
                     textUsername.setText(userDoctor.getName());
                     textUserNameTop.setText(userDoctor.getName());
                     textEmail.setText(userDoctor.getEmail());

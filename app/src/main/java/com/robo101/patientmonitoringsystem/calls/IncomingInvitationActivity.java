@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.bumptech.glide.Glide;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.api.messageapi.APIClient;
 import com.robo101.patientmonitoringsystem.api.messageapi.APIService;
@@ -23,6 +26,7 @@ import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URL;
 
 import retrofit2.Call;
@@ -32,6 +36,7 @@ import retrofit2.Response;
 public class IncomingInvitationActivity extends AppCompatActivity {
 
     String meetingType = null;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +50,18 @@ public class IncomingInvitationActivity extends AppCompatActivity {
         ImageView imageAcceptInvitation = findViewById(R.id.imageAcceptInvitation);
         ImageView imageRejectInvitation = findViewById(R.id.imageRejectInvitation);
 
-        TextView textFirstChar = findViewById(R.id.textFirstChar);
+        setupRingtone();
+
+        ImageView imageProfile = findViewById(R.id.imageProfileIncoming);
         TextView textUsername = findViewById(R.id.textUsername);
-        TextView textEmail = findViewById(R.id.textEmail);
 
         meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
 
         String username = getIntent().getStringExtra(Constants.NAME);
+        String imageURL = getIntent().getStringExtra(Constants.IMAGE_URL);
 
         textUsername.setText(username);
+        Glide.with(getApplicationContext()).load(imageURL).into(imageProfile);
 
         if (meetingType != null) {
             if (meetingType.equals("video")) {
@@ -63,9 +71,30 @@ public class IncomingInvitationActivity extends AppCompatActivity {
             }
         }
 
-        imageAcceptInvitation.setOnClickListener(v -> sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_ACCEPTED, getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN)));
+        imageAcceptInvitation.setOnClickListener(v -> {
 
-        imageRejectInvitation.setOnClickListener(v -> sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_REJECTED, getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN)));
+            sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_ACCEPTED, getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN));
+            mediaPlayer.stop();
+
+        });
+
+        imageRejectInvitation.setOnClickListener(v -> {
+
+            sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_REJECTED, getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN));
+            mediaPlayer.stop();
+
+        });
+    }
+
+    private void setupRingtone() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.iphone_ringtone);
+
+        try {
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendInvitationResponse(String type, String receiverToken) {

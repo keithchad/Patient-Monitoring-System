@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.api.messageapi.APIClient;
@@ -38,7 +40,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
 
     ImageView imageMeetingType;
     ImageView imageStopInvitation;
-    TextView textFirstChar;
+    ImageView imageUser;
     TextView textUsername;
     TextView textEmail;
 
@@ -48,6 +50,9 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     private String userName = null;
     private String userId = null;
     private String userToken = null;
+    private String userImage = null;
+
+    private MediaPlayer mediaPlayer;
 
     private int rejectionCount = 0;
     private  int totalReceivers = 0;
@@ -64,17 +69,20 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     private void initialize() {
         imageMeetingType = findViewById(R.id.imageMeetingType);
         imageStopInvitation = findViewById(R.id.imageStopInvitation);
-        textFirstChar = findViewById(R.id.textFirstChar);
+        imageUser = findViewById(R.id.imageUser);
         textUsername = findViewById(R.id.textUsername);
         textEmail = findViewById(R.id.textEmail);
+
+        setupOutgoingRingtone();
 
         meetingType = getIntent().getStringExtra("type");
 
         userName = getIntent().getStringExtra(Constants.NAME);
         userToken = getIntent().getStringExtra(Constants.FCM_TOKEN);
         userId = getIntent().getStringExtra(Constants.USER_ID);
+        userImage = getIntent().getStringExtra(Constants.IMAGE_URL);
 
-        textFirstChar.setText(userName.substring(0, 1));
+        Glide.with(this).load(userImage).into(imageUser);
         textUsername.setText(userName);
 
         if(meetingType != null) {
@@ -87,6 +95,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
 
         imageStopInvitation.setOnClickListener(v -> {
             cancelInvitation(userToken);
+            mediaPlayer.stop();
         });
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
@@ -100,6 +109,20 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setupOutgoingRingtone() {
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.hangouts_outgoing);
+
+        try {
+
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initiateMeeting(String meetingType, String receiverToken) {
@@ -116,13 +139,13 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             data.put(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_INVITATION);
             data.put(Constants.REMOTE_MSG_MEETING_TYPE, meetingType);
             data.put(Constants.NAME, userName);
+            data.put(Constants.IMAGE_URL, userImage);
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken);
 
             meetingRoom = userId + "_" +
                     UUID.randomUUID().toString().substring(0, 5);
 
             data.put(Constants.REMOTE_MSG_MEETING_ROOM, meetingRoom);
-
             body.put(Constants.REMOTE_MSG_DATA, data);
             body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
 
@@ -135,6 +158,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     }
 
     private void sendRemoteMessage(String remoteMessageBody, String type) {
+
         APIClient.getClient().create(APIService.class).sendRemoteMessage(
                 Constants.getRemoteMessageHeaders(), remoteMessageBody
         ).enqueue(new Callback<String>() {
@@ -194,6 +218,8 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             if(type != null) {
                 if(type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
 
+                    mediaPlayer.stop();
+
                     try {
                         URL severURL = new URL("https://meet.jit.si");
 
@@ -217,6 +243,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
                     Toast.makeText(context, "Invitation Accepted", Toast.LENGTH_SHORT).show();
                 }else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
                     rejectionCount += 1;
+                    mediaPlayer.stop();
                     if (rejectionCount == totalReceivers) {
                         Toast.makeText(context, "Invitation Rejected", Toast.LENGTH_SHORT).show();
                         finish();

@@ -35,7 +35,7 @@ public class MainActivityDoctor extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerDoctor, new HomeFragmentDoctor()).commit();
 
         ChipNavigationBar bottomNavigationView = findViewById(R.id.bottomNavigationViewDoctor);
-        bottomNavigationView.setItemSelected(R.id.home_menu, true);
+        bottomNavigationView.setItemSelected(R.id.home_menu_doctor, true);
 
         bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
     }
@@ -43,19 +43,19 @@ public class MainActivityDoctor extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final ChipNavigationBar.OnItemSelectedListener onItemSelectedListener = i -> {
         switch (i) {
-            case R.id.home_menu:
+            case R.id.home_menu_doctor:
                 selectedFragment = new HomeFragmentDoctor();
                 break;
-            case R.id.maps_menu:
+            case R.id.notifications_menu:
                 selectedFragment = new NotificationFragmentDoctor();
                 break;
-            case R.id.settings_menu:
+            case R.id.settings_menu_doctor:
                 selectedFragment = new ProfileFragmentDoctor();
                 break;
         }
         if (selectedFragment != null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, selectedFragment).commit();
+                    .replace(R.id.fragmentContainerDoctor, selectedFragment).commit();
         }
     };
 

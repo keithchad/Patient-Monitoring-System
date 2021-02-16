@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -54,10 +55,11 @@ public class MainActivityPatient extends AppCompatActivity {
         switch (i) {
             case R.id.home_menu:
                 selectedFragment = new HomeFragment();
+
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.USER_ID, userId);
-                Fragment fragment = new Fragment();
-                fragment.setArguments(bundle);
+                bundle.putString(Constants.USER_ID, "userId");
+                //Log.e("eeeerrrooooor",userId);
+                selectedFragment.setArguments(bundle);
                 break;
             case R.id.maps_menu:
                 selectedFragment = new MapsFragment();
@@ -66,8 +68,7 @@ public class MainActivityPatient extends AppCompatActivity {
                 selectedFragment = new ProfileFragment();
                 Bundle bundle2 = new Bundle();
                 bundle2.putString(Constants.USER_ID, userId);
-                Fragment fragment2 = new Fragment();
-                fragment2.setArguments(bundle2);
+                selectedFragment.setArguments(bundle2);
                 break;
         }
         if (selectedFragment != null) {

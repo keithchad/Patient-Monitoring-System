@@ -29,6 +29,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/imageCallDoctor"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/user_image"
+            android:src="@drawable/ic_call"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageProfileProfileDoctor"
+            app:layout_constraintEnd_toStartOf="@+id/imageProfileProfileDoctor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageProfileProfileDoctor"
+            app:tint="@color/colorWhite" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProfileProfileDoctor"
             android:layout_width="120dp"
@@ -39,6 +52,19 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textHello" />
+
+        <ImageView
+            android:id="@+id/imageVideoCallDoctor"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/user_image"
+            android:src="@drawable/ic_videocam"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageProfileProfileDoctor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageProfileProfileDoctor"
+            app:layout_constraintTop_toTopOf="@+id/imageProfileProfileDoctor"
+            app:tint="@color/colorWhite" />
 
         <TextView
             android:id="@+id/textUsernameTopDoctor"

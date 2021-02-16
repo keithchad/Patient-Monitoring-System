@@ -111,7 +111,7 @@ public class EmailRegisterActivity extends AppCompatActivity {
 
                         DatabaseReference reference = null;
                         if (userId != null) {
-                            reference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(userId);
+                            reference = FirebaseDatabase.getInstance().getReference().child("Doctor").child(userId);
                         }
 
                         HashMap<String, Object> user = new HashMap<>();

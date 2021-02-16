@@ -1,12 +1,18 @@
+
 package com.robo101.patientmonitoringsystem.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.robo101.patientmonitoringsystem.activity.doctor.MainActivityDoctor;
@@ -23,12 +29,22 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         initialize();
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
     private void initialize() {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         PreferenceManager preferenceManager = new PreferenceManager(this);
+
+        Animation bottom = AnimationUtils.loadAnimation(this, R.anim.bottom);
+        Animation top = AnimationUtils.loadAnimation(this, R.anim.top);
+
+        LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimation);
+        ImageView imageLogo = findViewById(R.id.imageHeart);
+
+        lottieAnimationView.setAnimation(top);
+        imageLogo.setAnimation(bottom);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent;
@@ -42,6 +58,8 @@ public class SplashActivity extends AppCompatActivity {
                 intent = new Intent(this, PhoneOTPActivity.class);
             }
             startActivity(intent);
+
         }, 2000);
     }
+
 }

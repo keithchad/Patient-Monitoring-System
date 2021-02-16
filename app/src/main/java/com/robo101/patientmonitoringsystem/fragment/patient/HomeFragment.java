@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,8 +35,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.Notification;
+import com.robo101.patientmonitoringsystem.model.Tips;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.model.Vitals;
+import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 import com.robo101.patientmonitoringsystem.viewmodel.TipsViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +63,8 @@ public class HomeFragment extends Fragment {
     private TextView textBloodOxygen;
     private TextView textBloodPressure;
     private TextView textTemperature;
+
+    private PreferenceManager preferenceManager;
 
     private ProgressBar progressBar;
 
@@ -88,6 +95,7 @@ public class HomeFragment extends Fragment {
         TextView textNoInternet = view.findViewById(R.id.textNoInternet);
         ScrollView scrollView = view.findViewById(R.id.scrollViewHome);
         ImageView imageRefresh = view.findViewById(R.id.imageRefresh);
+        preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
 
         textHeartRate = view.findViewById(R.id.textHeartbeat);
         textBloodOxygen = view.findViewById(R.id.textBloodOxygen);
@@ -100,9 +108,11 @@ public class HomeFragment extends Fragment {
         redDotTemperature = view.findViewById(R.id.redDotTemperature);
 
         tipsViewModel = new ViewModelProvider(this).get(TipsViewModel.class);
-        patientId = getArguments().getString(Constants.USER_ID);
-
+        patientId = preferenceManager.getString(Constants.USER_ID);
+        Toast.makeText(getContext(), patientId, Toast.LENGTH_SHORT).show();
         imageRefresh.setOnClickListener(v -> getTips());
+
+        preferenceManager.putString(Constants.USER_ID, patientId);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -123,7 +133,9 @@ public class HomeFragment extends Fragment {
       FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful() && task.getResult() != null) {
-                        sendFCMTokenToDatabase(task.getResult().getToken());
+                        if (patientId == null) {
+                            sendFCMTokenToDatabase(task.getResult().getToken());
+                        }
                     }
       });
     }
@@ -167,9 +179,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getUserInfo() {
-
-        if (getArguments().isEmpty()) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+        if(patientId != null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(patientId);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -185,15 +196,15 @@ public class HomeFragment extends Fragment {
 
                 }
             });
+
         } else {
-            layoutTips.setVisibility(View.GONE);
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(patientId);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User_Patient userPatient = snapshot.getValue(User_Patient.class);
                     if (userPatient != null) {
-                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+                        Glide.with(getContext()).load(userPatient.getImageUrl()).into(imageProfile);
                         textUsername.setText(userPatient.getName());
                     }
                 }
@@ -273,14 +284,17 @@ public class HomeFragment extends Fragment {
     }
 
     public void getTips() {
-        tipsViewModel.getTips().observe(getViewLifecycleOwner(), tipsResponse -> {
+
+        tipsViewModel.getTips().observe(getViewLifecycleOwner(), tips -> {
             progressBar.setVisibility(View.GONE);
-            if (tipsResponse != null) {
-                if (tipsResponse.getTips() != null) {
-                    textTips.setText(tipsResponse.getTips().getTips());
+            if (tips != null) {
+                if (tips.getContent() != null) {
+                    textTips.setText(tips.getContent());
                 }
             }
         });
+
+
     }
 
     private void sendFCMTokenToDatabase(String token) {

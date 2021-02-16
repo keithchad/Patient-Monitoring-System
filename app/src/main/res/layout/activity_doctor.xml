@@ -20,7 +20,7 @@
         android:id="@+id/bottomNavigationViewDoctor"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        app:cnb_menuResource="@menu/main_menu"
+        app:cnb_menuResource="@menu/main_menu_doctor"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/round_corners"
         app:cnb_unselectedColor="@color/colorBlack"

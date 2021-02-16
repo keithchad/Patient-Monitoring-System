@@ -1,13 +1,14 @@
 package com.robo101.patientmonitoringsystem.api.tipsapi;
 
-import com.robo101.patientmonitoringsystem.response.TipsResponse;
+import com.robo101.patientmonitoringsystem.model.Tips;
+
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ApiService {
 
-    @GET(".")
-    Call<TipsResponse> getTips();
+    @GET("random")
+    Call<Tips> getTips();
 
 }

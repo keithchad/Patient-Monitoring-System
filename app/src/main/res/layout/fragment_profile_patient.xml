@@ -29,6 +29,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/imageCall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/user_image"
+            android:src="@drawable/ic_call"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageProfileProfile"
+            app:layout_constraintEnd_toStartOf="@+id/imageProfileProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageProfileProfile"
+            app:tint="@color/colorWhite" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProfileProfile"
             android:layout_width="120dp"
@@ -39,6 +55,22 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textPatient" />
+
+        <ImageView
+            android:id="@+id/imageVideoCall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/user_image"
+            android:src="@drawable/ic_videocam"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageProfileProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageProfileProfile"
+            app:layout_constraintTop_toTopOf="@+id/imageProfileProfile"
+            app:tint="@color/colorWhite" />
 
         <TextView
             android:id="@+id/textUsernameTop"

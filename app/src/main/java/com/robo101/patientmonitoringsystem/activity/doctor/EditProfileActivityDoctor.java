@@ -109,7 +109,7 @@ public class EditProfileActivityDoctor extends AppCompatActivity {
 
     private void getUserInfo() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(firebaseUser.getUid());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctor").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -130,7 +130,7 @@ public class EditProfileActivityDoctor extends AppCompatActivity {
     }
 
     private void updateProfile(String fullname, String hospital, String specialization) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(firebaseUser.getUid());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Doctor").child(firebaseUser.getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(Constants.NAME, fullname);
@@ -158,14 +158,14 @@ public class EditProfileActivityDoctor extends AppCompatActivity {
                 if (!task.isSuccessful()) {
                     throw task.getException();
                 }
-                return storageReference.getDownloadUrl();
+                return fileReference.getDownloadUrl();
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     String url = downloadUri.toString();
 
                     DatabaseReference reference = FirebaseDatabase.getInstance()
-                            .getReference("Doctors").child(firebaseUser.getUid());
+                            .getReference("Doctor").child(firebaseUser.getUid());
 
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put(Constants.IMAGE_URL, ""+url);
@@ -175,7 +175,7 @@ public class EditProfileActivityDoctor extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     textSave.setVisibility(View.VISIBLE);
 
-                    startActivity(new Intent(EditProfileActivityDoctor.this, MainActivityPatient.class));
+                    startActivity(new Intent(EditProfileActivityDoctor.this, MainActivityDoctor.class));
                     finish();
                 } else {
                     progressBar.setVisibility(View.GONE);

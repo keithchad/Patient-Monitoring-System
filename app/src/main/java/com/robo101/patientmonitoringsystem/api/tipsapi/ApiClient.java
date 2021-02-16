@@ -10,7 +10,7 @@ public class ApiClient {
     public static Retrofit getTipsRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.adviceslip.com/advice")
+                    .baseUrl("https://api.quotable.io/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

@@ -108,7 +108,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     edittextFullname.setText(userPatient.getName());
                     edittextBirthdayEditProfile.setText(userPatient.getBirthday());
                     edittextAgeEditProfile.setText(userPatient.getAge());
-                    Glide.with(EditProfileActivity.this).load(userPatient.getImageUrl()).into(imageProfile);
+                    Glide.with(getApplicationContext()).load(userPatient.getImageUrl()).into(imageProfile);
                 }
             }
 
@@ -143,12 +143,12 @@ public class EditProfileActivity extends AppCompatActivity {
         if (imageUri != null) {
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()
                     + "." + getFileExtension(imageUri));
-            StorageTask uploadTask = fileReference.putFile(imageUri);
+            uploadTask = fileReference.putFile(imageUri);
             uploadTask.continueWithTask((Continuation) task -> {
                 if (!task.isSuccessful()) {
                     throw task.getException();
                 }
-                return storageReference.getDownloadUrl();
+                return fileReference.getDownloadUrl();
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();

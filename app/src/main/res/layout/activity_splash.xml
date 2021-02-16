@@ -3,42 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/startColor"
     tools:context=".activity.SplashActivity">
 
-    <TextView
-        android:id="@+id/logo"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_autoPlay="true"
+        app:lottie_repeatCount="2"
+        app:lottie_loop="true"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/heart_beat" />
+
+    <ImageView
+        android:id="@+id/imageHeart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGO HERE"
-        android:textColor="@color/colorWhite"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textSize="30sp"
+        android:src="@drawable/app_splash"
+        android:padding="70dp"
+        android:layout_below="@id/lottieAnimation"
+        android:contentDescription="@string/app_name"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal"/>
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="APP NAME HERE"
-        android:layout_below="@id/logo"
-        android:textColor="@color/colorWhite"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textSize="20sp"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Coming soon!"
-        android:layout_below="@id/text"
-        android:textColor="@android:color/holo_red_dark"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textSize="20sp"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"/>
-
 
 </RelativeLayout>

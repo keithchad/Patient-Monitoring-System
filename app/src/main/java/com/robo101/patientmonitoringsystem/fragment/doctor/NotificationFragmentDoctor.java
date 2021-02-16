@@ -63,7 +63,7 @@ public class NotificationFragmentDoctor extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                swipeRefreshLayout.setRefreshing(true);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Notification notification = dataSnapshot.getValue(Notification.class);
                     if (notification != null) {

@@ -116,7 +116,24 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                         buttonVerify.setVisibility(View.VISIBLE);
 
                         if (task.isSuccessful()) {
-                            openDialog();
+
+                            FirebaseUser user = task.getResult().getUser();
+
+                            if (user != null) {
+
+                                long creationTimestamp = Objects.requireNonNull(user.getMetadata()).getCreationTimestamp();
+                                long lastSignInTimeStamp = user.getMetadata().getLastSignInTimestamp();
+
+                                if (creationTimestamp == lastSignInTimeStamp) {
+                                    openDialog();
+                                } else {
+                                    Intent intent = new Intent(getApplicationContext(), MainActivityPatient.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    preferenceManager.putBoolean(Constants.IS_LOGGED_IN, true);
+                                    startActivity(intent);
+                                }
+                            }
+
                         } else {
                             Snackbar.make(scrollView, "The code entered was invalid!", Snackbar.LENGTH_SHORT).show();
                         }
