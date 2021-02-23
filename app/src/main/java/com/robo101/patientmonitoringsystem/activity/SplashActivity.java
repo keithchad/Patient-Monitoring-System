@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
         Animation bottom = AnimationUtils.loadAnimation(this, R.anim.bottom);
         Animation top = AnimationUtils.loadAnimation(this, R.anim.top);
 
-        LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimation);
+        ImageView lottieAnimationView = findViewById(R.id.lottieAnimation);
         ImageView imageLogo = findViewById(R.id.imageHeart);
 
         lottieAnimationView.setAnimation(top);

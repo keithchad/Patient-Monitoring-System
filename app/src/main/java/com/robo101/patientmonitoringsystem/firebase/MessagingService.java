@@ -2,6 +2,7 @@ package com.robo101.patientmonitoringsystem.firebase;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -16,7 +17,7 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        Log.e("token", token);
+        Log.e("token", token); 
     }
 
     @Override
@@ -68,6 +69,8 @@ public class MessagingService extends FirebaseMessagingService {
                 );
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
             }
+        } else {
+            Toast.makeText(this, "type is null", Toast.LENGTH_SHORT).show();
         }
     }
 }

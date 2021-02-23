@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -61,7 +62,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     //Firebase Auth
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation 'com.google.firebase:firebase-auth:20.0.2'
     implementation 'androidx.browser:browser:1.3.0'
 
     //Firebase Database
@@ -72,6 +73,12 @@ dependencies {
 
     //Firebase Messaging
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
+
+    //Firebase Crashlytics
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
+
+    //Firebase Analytics
+    implementation 'com.google.firebase:firebase-analytics:18.0.2'
 
     //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -89,6 +96,7 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
 
     //Lifecycle(LiveData and ViewModel)
     implementation  "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

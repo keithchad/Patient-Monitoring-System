@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.api.messageapi.APIClient;
 import com.robo101.patientmonitoringsystem.api.messageapi.APIService;
@@ -42,7 +42,6 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     ImageView imageStopInvitation;
     ImageView imageUser;
     TextView textUsername;
-    TextView textEmail;
 
     private String inviterToken = null;
     private String meetingRoom = null;
@@ -71,7 +70,6 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         imageStopInvitation = findViewById(R.id.imageStopInvitation);
         imageUser = findViewById(R.id.imageUser);
         textUsername = findViewById(R.id.textUsername);
-        textEmail = findViewById(R.id.textEmail);
 
         setupOutgoingRingtone();
 
@@ -94,18 +92,23 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         }
 
         imageStopInvitation.setOnClickListener(v -> {
+
             cancelInvitation(userToken);
             mediaPlayer.stop();
+            mediaPlayer.release();
+
         });
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if(task.isSuccessful() && task.getResult() != null) {
-                inviterToken = task.getResult().getToken();
+
+                inviterToken = task.getResult();
 
                 if (meetingType != null) {
                    totalReceivers = 1;
                    initiateMeeting(meetingType, userToken);
                 }
+
             }
         });
 
@@ -114,15 +117,8 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     private void setupOutgoingRingtone() {
 
         mediaPlayer = MediaPlayer.create(this, R.raw.hangouts_outgoing);
+        mediaPlayer.start();
 
-        try {
-
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void initiateMeeting(String meetingType, String receiverToken) {
@@ -268,6 +264,14 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(
                 invitationResponseReceiver
         );
+        mediaPlayer.stop();
+        mediaPlayer.release();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start();
     }
 
     private void setBarColors() {

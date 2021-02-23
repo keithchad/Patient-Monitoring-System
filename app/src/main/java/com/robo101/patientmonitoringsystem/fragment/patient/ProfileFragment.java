@@ -70,15 +70,17 @@ public class ProfileFragment extends Fragment {
         imageCall = view.findViewById(R.id.imageCall);
 
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
+        MaterialButton buttonSignOut = view.findViewById(R.id.buttonSignOut);
+        MaterialButton buttonChangeProfileDetails = view.findViewById(R.id.buttonChangeProfileDetails);
 
         if (preferenceManager.getString(Constants.USER_ID) != null) {
             userId = preferenceManager.getString(Constants.USER_ID);
             imageVideo.setVisibility(View.VISIBLE);
             imageCall.setVisibility(View.VISIBLE);
+            buttonSignOut.setVisibility(View.GONE);
+            buttonChangeProfileDetails.setVisibility(View.GONE);
         }
 
-        MaterialButton buttonSignOut = view.findViewById(R.id.buttonSignOut);
-        MaterialButton buttonChangeProfileDetails = view.findViewById(R.id.buttonChangeProfileDetails);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         buttonChangeProfileDetails.setOnClickListener(v -> {
@@ -107,6 +109,12 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User_Patient userPatient = snapshot.getValue(User_Patient.class);
                 if (userPatient != null) {
+
+                    if (userPatient.getToken() == null) {
+
+                        Objects.requireNonNull(userPatient.getToken()).trim();
+                    } else {
+
                         Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
                         intent.putExtra(Constants.NAME, userPatient.getName());
                         intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
@@ -114,6 +122,9 @@ public class ProfileFragment extends Fragment {
                         intent.putExtra(Constants.IMAGE_URL, userPatient.getImageUrl());
                         intent.putExtra("type", "audio");
                         startActivity(intent);
+
+                    }
+
                 }
             }
 
@@ -126,20 +137,28 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initiateVideoMeeting() {
-
+        
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User_Patient userPatient = snapshot.getValue(User_Patient.class);
                 if (userPatient != null) {
-                    Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
-                    intent.putExtra(Constants.NAME, userPatient.getName());
-                    intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
-                    intent.putExtra(Constants.USER_ID, userPatient.getUserId());
-                    intent.putExtra(Constants.IMAGE_URL, userPatient.getImageUrl());
-                    intent.putExtra("type", "video");
-                    startActivity(intent);
+                    
+                    if (userPatient.getToken() == null && Objects.requireNonNull(userPatient.getToken()).trim().isEmpty()) {
+
+                        Toast.makeText(getContext(), userPatient.getName() + " is not available!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        
+                        Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
+                        intent.putExtra(Constants.NAME, userPatient.getName());
+                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
+                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
+                        intent.putExtra(Constants.IMAGE_URL, userPatient.getImageUrl());
+                        intent.putExtra("type", "video");
+                        startActivity(intent);
+                        
+                    }
                 }
             }
 

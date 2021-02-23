@@ -3,14 +3,14 @@ package com.robo101.patientmonitoringsystem.model;
 public class Vitals {
 
     private String id;
-    private int heartBeat;
-    private int bloodOxygen;
-    private int bloodPressure;
-    private int bodyTemperature;
+    private double heartBeat;
+    private double bloodOxygen;
+    private double bloodPressure;
+    private double bodyTemperature;
 
     public Vitals() {}
 
-    public Vitals(String id, int heartBeat, int bloodOxygen, int bloodPressure, int bodyTemperature) {
+    public Vitals(String id, double heartBeat, double bloodOxygen, double bloodPressure, double bodyTemperature) {
         this.id = id;
         this.heartBeat = heartBeat;
         this.bloodOxygen = bloodOxygen;
@@ -26,35 +26,35 @@ public class Vitals {
         this.id = id;
     }
 
-    public int getHeartBeat() {
+    public double getHeartBeat() {
         return heartBeat;
     }
 
-    public void setHeartBeat(int heartBeat) {
+    public void setHeartBeat(double heartBeat) {
         this.heartBeat = heartBeat;
     }
 
-    public int getBloodOxygen() {
+    public double getBloodOxygen() {
         return bloodOxygen;
     }
 
-    public void setBloodOxygen(int bloodOxygen) {
+    public void setBloodOxygen(double bloodOxygen) {
         this.bloodOxygen = bloodOxygen;
     }
 
-    public int getBloodPressure() {
+    public double getBloodPressure() {
         return bloodPressure;
     }
 
-    public void setBloodPressure(int bloodPressure) {
+    public void setBloodPressure(double bloodPressure) {
         this.bloodPressure = bloodPressure;
     }
 
-    public int getBodyTemperature() {
+    public double getBodyTemperature() {
         return bodyTemperature;
     }
 
-    public void setBodyTemperature(int bodyTemperature) {
+    public void setBodyTemperature(double bodyTemperature) {
         this.bodyTemperature = bodyTemperature;
     }
 }

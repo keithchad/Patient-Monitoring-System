@@ -72,9 +72,10 @@ public class MapsFragment extends Fragment {
             String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
                     "?location=" + currentLat + "," + currentLong +
                     "&radius=5000" +
-                    "&types=hospital" +
+                    "&type=hospital" +
                     "&sensor=true" +
                     "&key=" + getResources().getString(R.string.google_maps_key);
+            //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-0.8117033,34.5891747&radius=5000&type=hospital&sensor=true&key=AIzaSyD54nmYUv81R_29lI2VInkspAspsL1G77M
 
             new PlaceTask().execute(url);
         });
@@ -101,8 +102,17 @@ public class MapsFragment extends Fragment {
 
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(
                             new LatLng(currentLat, currentLong),
-                            10
+                            20
                     ));
+
+                    LatLng latLng = new LatLng(currentLat, currentLong );
+
+                    MarkerOptions options = new MarkerOptions();
+
+                    options.position(latLng);
+                    options.title("Your current Location");
+                    map.addMarker(options);
+
                 });
 
             } else {

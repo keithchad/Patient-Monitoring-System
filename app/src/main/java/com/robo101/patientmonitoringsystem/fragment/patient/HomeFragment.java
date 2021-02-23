@@ -43,7 +43,11 @@ import com.robo101.patientmonitoringsystem.viewmodel.TipsViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -117,7 +121,7 @@ public class HomeFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ConnectivityManager connectivityManager =
-                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) Objects.requireNonNull(getContext()).getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
@@ -129,53 +133,106 @@ public class HomeFragment extends Fragment {
             textNoInternet.setVisibility(View.VISIBLE);
             imageNoInternet.setVisibility(View.VISIBLE);
         }
-
-      FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && task.getResult() != null) {
-                        if (patientId == null) {
-                            sendFCMTokenToDatabase(task.getResult().getToken());
-                        }
-                    }
-      });
     }
 
     private void getVitals() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                vitals = snapshot.getValue(Vitals.class);
-                if (vitals != null) {
-                    textHeartRate.setText(vitals.getHeartBeat());
-                    textBloodOxygen.setText(vitals.getBloodOxygen());
-                    textBloodPressure.setText(vitals.getBloodPressure());
-                    textTemperature.setText(vitals.getBodyTemperature());
-                }
+        if(patientId == null) {
 
-                if (vitals != null) {
-                    if (vitals.getHeartBeat() <= 60) {
-                        redDotHeart.setVisibility(View.VISIBLE);
-                        addNotificationHeartBeat(firebaseUser.getUid() , vitals);
-                    } else if (vitals.getBloodOxygen() <= 20) {
-                        redDotOxygen.setVisibility(View.VISIBLE);
-                        addNotificationBloodOxygen(firebaseUser.getUid(), vitals);
-                    } else if (vitals.getBloodPressure() <= 120) {
-                        redDotPressure.setVisibility(View.VISIBLE);
-                        addNotificationBloodPressure(firebaseUser.getUid(), vitals);
-                    } else if (vitals.getBodyTemperature() <= 30) {
-                        redDotTemperature.setVisibility(View.VISIBLE);
-                        addNotificationBodyTemperature(firebaseUser.getUid(), vitals);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals").child(firebaseUser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    vitals = snapshot.getValue(Vitals.class);
+
+                    if (vitals != null) {
+
+                        //textHeartRate.setText(vitals.getHeartBeat());
+                        //textBloodOxygen.setText(vitals.getBloodOxygen());
+                        double bloodPressure = vitals.getBloodPressure();
+                        BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
+                        textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
+
+                        double bodyTemperature = vitals.getBodyTemperature();
+                        BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
+                        textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
+
+                    }
+
+                    if (vitals != null) {
+
+                        if (vitals.getHeartBeat() <= 60) {
+                            redDotHeart.setVisibility(View.VISIBLE);
+                            addNotificationHeartBeat(firebaseUser.getUid(), vitals);
+                        } else if (vitals.getBloodOxygen() <= 20) {
+                            redDotOxygen.setVisibility(View.VISIBLE);
+                            addNotificationBloodOxygen(firebaseUser.getUid(), vitals);
+                        } else if (vitals.getBloodPressure() <= 120) {
+                            redDotPressure.setVisibility(View.VISIBLE);
+                            addNotificationBloodPressure(firebaseUser.getUid(), vitals);
+                        } else if (vitals.getBodyTemperature() <= 30) {
+                            redDotTemperature.setVisibility(View.VISIBLE);
+                            addNotificationBodyTemperature(firebaseUser.getUid(), vitals);
+                        }
+
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals").child(patientId);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    vitals = snapshot.getValue(Vitals.class);
+
+                    if (vitals != null) {
+
+                        //textHeartRate.setText(vitals.getHeartBeat());
+                        //textBloodOxygen.setText(vitals.getBloodOxygen());
+                        double bloodPressure = vitals.getBloodPressure();
+                        BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
+                        textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
+
+                        double bodyTemperature = vitals.getBodyTemperature();
+                        BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
+                        textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
+
+                    }
+
+                    if (vitals != null) {
+
+                        if (vitals.getHeartBeat() <= 60) {
+                            redDotHeart.setVisibility(View.VISIBLE);
+                            addNotificationHeartBeat(firebaseUser.getUid(), vitals);
+                        } else if (vitals.getBloodOxygen() <= 20) {
+                            redDotOxygen.setVisibility(View.VISIBLE);
+                            addNotificationBloodOxygen(firebaseUser.getUid(), vitals);
+                        } else if (vitals.getBloodPressure() <= 120) {
+                            redDotPressure.setVisibility(View.VISIBLE);
+                            addNotificationBloodPressure(firebaseUser.getUid(), vitals);
+                        } else if (vitals.getBodyTemperature() <= 30) {
+                            redDotTemperature.setVisibility(View.VISIBLE);
+                            addNotificationBodyTemperature(firebaseUser.getUid(), vitals);
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        }
     }
 
     private void getUserInfo() {
@@ -198,13 +255,14 @@ public class HomeFragment extends Fragment {
             });
 
         } else {
+
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User_Patient userPatient = snapshot.getValue(User_Patient.class);
                     if (userPatient != null) {
-                        Glide.with(getContext()).load(userPatient.getImageUrl()).into(imageProfile);
+                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
                         textUsername.setText(userPatient.getName());
                     }
                 }
@@ -294,21 +352,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-    }
-
-    private void sendFCMTokenToDatabase(String token) {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(Constants.FCM_TOKEN, token);
-
-        reference.updateChildren(hashMap).addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Token Updated Successfully", Toast.LENGTH_SHORT).show()).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Unable to send Token: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 

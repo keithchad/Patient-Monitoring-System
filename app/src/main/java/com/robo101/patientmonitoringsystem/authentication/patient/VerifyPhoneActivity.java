@@ -25,8 +25,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.R;
@@ -121,17 +124,32 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             if (user != null) {
 
-                                long creationTimestamp = Objects.requireNonNull(user.getMetadata()).getCreationTimestamp();
-                                long lastSignInTimeStamp = user.getMetadata().getLastSignInTimestamp();
+                                String userId = user.getUid();
 
-                                if (creationTimestamp == lastSignInTimeStamp) {
-                                    openDialog();
-                                } else {
-                                    Intent intent = new Intent(getApplicationContext(), MainActivityPatient.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    preferenceManager.putBoolean(Constants.IS_LOGGED_IN, true);
-                                    startActivity(intent);
-                                }
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+
+                                            Intent intent = new Intent(getApplicationContext(), MainActivityPatient.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            preferenceManager.putBoolean(Constants.IS_LOGGED_IN, true);
+                                            startActivity(intent);
+
+                                        } else {
+
+                                            openDialog();
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
 
                         } else {

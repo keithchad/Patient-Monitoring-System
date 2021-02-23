@@ -59,6 +59,7 @@
         android:layout_height="0dp"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutHeader">
 
@@ -237,7 +238,7 @@
                             android:layout_height="80dp"
                             android:layout_marginTop="16dp"
                             android:contentDescription="@string/app_name"
-                            app:lottie_rawRes="@raw/heartbeat_two"
+                            app:lottie_rawRes="@raw/heart_beat"
                             app:lottie_loop="true"
                             app:lottie_autoPlay="true"
                             app:layout_constraintEnd_toEndOf="parent"

@@ -119,15 +119,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Vitals vitals = snapshot.getValue(Vitals.class);
                 if (vitals != null) {
-                    if (notification.isHeartBeat()) {
-                        textIssue.setText(vitals.getHeartBeat());
-                    } else if (notification.isBloodOxygen()) {
-                        textIssue.setText(vitals.getBloodOxygen());
-                    } else if (notification.isBloodPressure()) {
-                        textIssue.setText(vitals.getBloodPressure());
-                    } else if(notification.isTemperature()) {
-                        textIssue.setText(vitals.getBodyTemperature());
-                    }
+//                    if (notification.isHeartBeat()) {
+//                        textIssue.setText(vitals.getHeartBeat());
+//                    } else if (notification.isBloodOxygen()) {
+//                        textIssue.setText(vitals.getBloodOxygen());
+//                    } else if (notification.isBloodPressure()) {
+//                        textIssue.setText(vitals.getBloodPressure());
+//                    } else if(notification.isTemperature()) {
+//                        textIssue.setText(vitals.getBodyTemperature());
+//                    }
                 }
             }
 

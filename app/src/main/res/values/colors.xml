@@ -12,6 +12,6 @@
     <color name="colorBackground">#EBEBEB</color>
     <color name="startColor">#294CF8</color>
     <color name="endColor">#364CB6</color>
-    <color name="colorMeetingInvitationEnd">#061D57</color>
+    <color name="colorMeetingInvitationEnd">#0D6FC5</color>
     <color name="colorMeetingInvitationStart">#0B04F0</color>
 </resources>

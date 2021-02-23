@@ -83,6 +83,7 @@
     <string name="issue">Issue</string>
     <string name="notifications">Notifications</string>
     <string name="sending_meeting_invitation">Sending Meeting Invitation</string>
+    <string name="incoming_meeting_invitation">Incoming Meeting Invitation</string>
     <string name="patients">PATIENTS</string>
     <string name="notification">Notification</string>
 </resources>

@@ -13,6 +13,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="50dp"
         android:contentDescription="@string/app_name"
+        app:tint="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -23,8 +24,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/ubuntu_medium"
         android:gravity="center"
+        android:text="@string/incoming_meeting_invitation"
         android:includeFontPadding="false"
-        android:textSize="15sp"
+        android:textSize="17sp"
+        android:textColor="@color/colorWhite"
         app:layout_constraintTop_toBottomOf="@+id/imageMeetingType" />
 
     <LinearLayout
@@ -33,18 +36,20 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        tools:layout_editor_absoluteX="60dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProfileIncoming"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:fontFamily="@font/ubuntu_bold"
             android:gravity="center"
             android:includeFontPadding="false"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimaryText"
-            android:textSize="30sp"/>
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textUsername"
@@ -54,24 +59,15 @@
             android:fontFamily="@font/ubuntu_bold"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/textEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:fontFamily="@font/ubuntu_regular"
-            android:includeFontPadding="false"
-            android:gravity="center"
-            android:textSize="12sp"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp" />
 
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageAcceptInvitation"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_accept"
         android:layout_marginStart="60dp"
         android:layout_marginBottom="50dp"
@@ -84,8 +80,8 @@
 
     <ImageView
         android:id="@+id/imageRejectInvitation"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_reject"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="50dp"

@@ -8,24 +8,38 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.fragment.patient.HomeFragment;
 import com.robo101.patientmonitoringsystem.fragment.patient.MapsFragment;
 import com.robo101.patientmonitoringsystem.fragment.patient.ProfileFragment;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
+
+import java.util.HashMap;
 
 public class MainActivityPatient extends AppCompatActivity {
 
     private Fragment selectedFragment = null;
     private String userId;
+    private PreferenceManager preferenceManager;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +58,25 @@ public class MainActivityPatient extends AppCompatActivity {
 
         ChipNavigationBar bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setItemSelected(R.id.home_menu, true);
+        preferenceManager = new PreferenceManager(this);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
-        userId = getIntent().getStringExtra(Constants.USER_ID);
+        userId = preferenceManager.getString(Constants.USER_ID);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+
+                    if(task.isSuccessful() && task.getResult() != null) {
+
+                        if (userId == null) {
+
+                            sendFCMTokenToDatabase(task.getResult());
+
+                        }
+                    }
+                });
 
     }
 
@@ -55,20 +85,12 @@ public class MainActivityPatient extends AppCompatActivity {
         switch (i) {
             case R.id.home_menu:
                 selectedFragment = new HomeFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.USER_ID, "userId");
-                //Log.e("eeeerrrooooor",userId);
-                selectedFragment.setArguments(bundle);
                 break;
             case R.id.maps_menu:
                 selectedFragment = new MapsFragment();
                 break;
             case R.id.settings_menu:
                 selectedFragment = new ProfileFragment();
-                Bundle bundle2 = new Bundle();
-                bundle2.putString(Constants.USER_ID, userId);
-                selectedFragment.setArguments(bundle2);
                 break;
         }
         if (selectedFragment != null) {
@@ -94,6 +116,16 @@ public class MainActivityPatient extends AppCompatActivity {
                 builder.create().show();
             }
         }
+    }
+
+    private void sendFCMTokenToDatabase(String token) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Constants.FCM_TOKEN, token);
+
+        reference.updateChildren(hashMap).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Unable to send Token: "+ e.getMessage(), Toast.LENGTH_SHORT).show());
+
     }
 
     @Override

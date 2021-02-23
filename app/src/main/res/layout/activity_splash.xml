@@ -4,18 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/startColor"
+    android:background="#C8C8C8"
     tools:context=".activity.SplashActivity">
 
-    <com.airbnb.lottie.LottieAnimationView
+    <ImageView
         android:id="@+id/lottieAnimation"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:lottie_autoPlay="true"
-        app:lottie_repeatCount="2"
-        app:lottie_loop="true"
-        android:layout_centerInParent="true"
-        app:lottie_rawRes="@raw/heart_beat" />
+        android:src="@drawable/mobidoc_logo"
+        android:layout_centerInParent="true" />
 
     <ImageView
         android:id="@+id/imageHeart"

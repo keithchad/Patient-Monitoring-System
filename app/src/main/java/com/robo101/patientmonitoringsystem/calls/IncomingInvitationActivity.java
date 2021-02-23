@@ -53,7 +53,7 @@ public class IncomingInvitationActivity extends AppCompatActivity {
         setupRingtone();
 
         ImageView imageProfile = findViewById(R.id.imageProfileIncoming);
-        TextView textUsername = findViewById(R.id.textUsername);
+        TextView textUsername = findViewById(R.id.textUsername );
 
         meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
 
@@ -75,6 +75,7 @@ public class IncomingInvitationActivity extends AppCompatActivity {
 
             sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_ACCEPTED, getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN));
             mediaPlayer.stop();
+            mediaPlayer.release();
 
         });
 
@@ -82,19 +83,14 @@ public class IncomingInvitationActivity extends AppCompatActivity {
 
             sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_REJECTED, getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN));
             mediaPlayer.stop();
+            mediaPlayer.release();
 
         });
     }
 
     private void setupRingtone() {
         mediaPlayer = MediaPlayer.create(this, R.raw.iphone_ringtone);
-
-        try {
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mediaPlayer.start();
     }
 
     private void sendInvitationResponse(String type, String receiverToken) {
@@ -194,5 +190,11 @@ public class IncomingInvitationActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(
                 broadcastReceiver
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start();
     }
 }
