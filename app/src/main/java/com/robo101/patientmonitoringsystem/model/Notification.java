@@ -3,7 +3,7 @@ package com.robo101.patientmonitoringsystem.model;
 public class Notification {
 
     private String userId;
-    private String textIssue;
+    private double textIssue;
     private String textIssueName;
     private boolean isHeartBeat;
     private boolean isBloodOxygen;
@@ -12,7 +12,7 @@ public class Notification {
 
     public Notification() {}
 
-    public Notification(String userId, String textIssue, String textIssueName, boolean isHeartBeat, boolean isBloodOxygen, boolean isBloodPressure, boolean isTemperature) {
+    public Notification(String userId, double textIssue, String textIssueName, boolean isHeartBeat, boolean isBloodOxygen, boolean isBloodPressure, boolean isTemperature) {
         this.userId = userId;
         this.textIssue = textIssue;
         this.textIssueName = textIssueName;
@@ -30,11 +30,11 @@ public class Notification {
         this.userId = userId;
     }
 
-    public String getTextIssue() {
+    public double getTextIssue() {
         return textIssue;
     }
 
-    public void setTextIssue(String textIssue) {
+    public void setTextIssue(double textIssue) {
         this.textIssue = textIssue;
     }
 

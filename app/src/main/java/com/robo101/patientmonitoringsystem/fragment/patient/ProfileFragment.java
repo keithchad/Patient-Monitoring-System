@@ -201,7 +201,7 @@ public class ProfileFragment extends Fragment {
                         textGender.setText(userPatient.getGender());
                         textAge.setText(userPatient.getAge());
                         textNumber.setText(userPatient.getPhoneNumber());
-                        Glide.with(Objects.requireNonNull(getContext())).load(userPatient.getImageUrl()).into(imageProfile);
+                        Glide.with(getContext()).load(userPatient.getImageUrl()).into(imageProfile);
                     }
                 }
 

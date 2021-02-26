@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -28,8 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class NotificationFragmentDoctor extends Fragment {
-    
-    private RecyclerView recyclerView;
+
     private List<Notification> list;
     private NotificationAdapter notificationAdapter;
     private FirebaseUser firebaseUser;
@@ -45,30 +46,38 @@ public class NotificationFragmentDoctor extends Fragment {
 
     private void initialize(View view) {
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshNotification);
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this::getNotification);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         list = new ArrayList<>();
         notificationAdapter = new NotificationAdapter(getContext(), list);
+        recyclerView.setAdapter(notificationAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(true);
 
         getNotification();
     }
 
     private void getNotification() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification").child(firebaseUser.getUid());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setRefreshing(false);
+                list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
                     Notification notification = dataSnapshot.getValue(Notification.class);
                     if (notification != null) {
                         list.add(notification);
                     }
+
                 }
 
                 Collections.reverse(list);

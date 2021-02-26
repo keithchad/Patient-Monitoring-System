@@ -100,6 +100,7 @@ public class ProfileFragmentDoctor extends Fragment {
         });
 
         buttonSignOut.setOnClickListener(v -> {
+
             FirebaseAuth.getInstance().signOut();
 
             Intent intent = new Intent(getContext(), SplashActivity.class);

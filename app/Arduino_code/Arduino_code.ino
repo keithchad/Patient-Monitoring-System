@@ -1,5 +1,3 @@
-#include <ArduinoJson.h>
-
 //Pulse Heart Rate BPM and Oxygen SpO2 Monitor
 #include <Wire.h>
 #include <MAX30100_PulseOximeter.h>
@@ -15,8 +13,8 @@
 #define FIREBASE_AUTH "OkHTg01mYFJXonZTPpVL8ua8RJAzP5zzwURwXDEo" //Firebase Settings Host
 
 //WiFi
-#define WIFI_SSID "LTVKENYA"  //Wifi SSID
-#define WIFI_PASSWORD "Ninadesh41"  //WifiPassword
+#define WIFI_SSID "ROBO101"  //Wifi SSID
+#define WIFI_PASSWORD "ROBO101TECH"  //WifiPassword
 
 #define REPORTING_PERIOD_MS 1000
 
@@ -25,9 +23,10 @@ PulseOximeter pulseOximeter;
 SFE_BMP180 bmp180;
 FirebaseData firebaseData;
 FirebaseJson json;
+FirebaseJson jsonOther;
 OakOLED oled;
 
-float BPM, SpO2;
+double BPM, SpO2;
 uint32_t tsLastReport = 0;
 
 char status;
@@ -50,50 +49,32 @@ void setup() {
 
     Serial.begin(115200);
 
-     oled.begin();
-
     initializeWifi();
     initializeFirebase();
-
-    oled.drawBitmap( 60, 20, bitmap, 28, 28, 1);
-    oled.setCursor(0, 0);
-
-    oled.clearDisplay();
-    oled.setTextSize(1);
-    oled.setTextColor(1);
-    oled.setCursor(0, 0);
-    oled.println("Initializing BMP180..");
-    oled.display();
-
-    Serial.print("Initializing BMP180..");
-
-    bool success = bmp180.begin();
-
-    if (success) {
-
-        Serial.println("BMP180 init success");
-        oled.clearDisplay();
-        oled.setTextSize(3);
-        oled.setTextColor(1);
-        oled.setCursor(10, 5);
-        oled.println("SUCCESS");
-        oled.display();
-
-    } else {
-
-      Serial.println("BMP180 init failed"); 
-      oled.clearDisplay();
-      oled.setTextSize(3);
-      oled.setTextColor(1);
-      oled.setCursor(10, 5);
-      oled.println("FAILED");
-      oled.display(); 
+     
+    Serial.print("Initializing Pulse Oximeter..");
+ 
+    if (!pulseOximeter.begin()) {
       
+         Serial.println("FAILED");
+         for(;;);
+         
+    } else {
+      
+         Serial.println("SUCCESS");
+         pulseOximeter.setOnBeatDetectedCallback(onBeatDetected);
+         
     }
-
 }
 
 void loop() {
+
+  getHeartBeatAndOxygen();
+  //getTempAndPressure();
+
+}
+
+void getTempAndPressure() {
 
   status = bmp180.startTemperature();
 
@@ -116,51 +97,71 @@ void loop() {
       status = bmp180.getPressure(P, T);
 
     }
-
-      
+ 
     if (status != 0) {
-
-      oled.clearDisplay();
-        oled.setTextSize(1);
-        oled.setTextColor(1);
-        oled.setCursor(0,16);
-        oled.println(P/10);
- 
-        oled.setTextSize(1);
-        oled.setTextColor(1);
-        oled.setCursor(0, 2);
-        oled.println("Blood Pressure");
- 
-        oled.setTextSize(1);
-        oled.setTextColor(2);
-        oled.setCursor(0, 30);
-        oled.println("Temp");
- 
-        oled.setTextSize(1);
-        oled.setTextColor(1);
-        oled.setCursor(0,45);
-        oled.println(T);
-        oled.display();
       
       Serial.print("Pressure: ");
       Serial.print(P/10);
       Serial.println(" hPa");
-      json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodPressure", P/10);
+      
       Serial.print("Temperature: ");
-      Serial.print(T+7);
+      Serial.print(T+2);
       Serial.println(" C");
-      json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bodyTemperature", T+5);
-
-      Firebase.set(firebaseData, "Vitals", json);
-
+      
     }
+  
+}
+
+void getHeartBeatAndOxygen() {
+
+    pulseOximeter.update();
+ 
+    BPM = pulseOximeter.getHeartRate();
+    SpO2 = pulseOximeter.getSpO2();
+    
+    if (millis() - tsLastReport > REPORTING_PERIOD_MS) {
+  
+
+
+        if(BPM && SpO2 != 0) {
+
+          if(SpO2 > 0) {
+
+               
+        Serial.print("Heart rate:");
+        Serial.print(BPM);
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/heartBeat", BPM);
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodPressure", 1.0);
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bodyTemperature", 1.0);
+        Serial.print(" SpO2:");
+        Serial.print(SpO2);
+        Serial.println(" %");
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodOxygen", SpO2);
+
+        
+
+               pulseOximeter.shutdown();     
+               Firebase.set(firebaseData, "Vitals", json);
+               pulseOximeter.resume();
+            
+          }
+          
+        }
+
+        
+        tsLastReport = millis();
+    }
+  
 }
 
 void onBeatDetected() {
   
-  Serial.println("Beat Detected!");
-  
+    Serial.println("Beat Detected!");
+    oled.drawBitmap( 60, 20, bitmap, 28, 28, 1);
+    oled.display();
+    
 }
+ 
 
 void initializeFirebase() {
 

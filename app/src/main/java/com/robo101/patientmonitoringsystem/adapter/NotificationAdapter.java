@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
+import com.robo101.patientmonitoringsystem.fragment.patient.HomeFragment;
 import com.robo101.patientmonitoringsystem.fragment.patient.ProfileFragment;
 import com.robo101.patientmonitoringsystem.model.Notification;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
@@ -49,13 +50,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Notification notification = list.get(position);
+
         getUserInfo(holder.imageProfile, holder.userName, notification.getUserId());
         getIssueType(holder.textIssue, notification);
+
         holder.textIssueName.setText(notification.getTextIssueName());
+
         holder.relativeLayout.setOnClickListener(v -> {
 
-            ((MainActivityPatient)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ProfileFragment());
+            ((MainActivityPatient)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment());
             SharedPreferences.Editor editor = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
             editor.putString(Constants.USER_ID, notification.getUserId());
             editor.apply();
@@ -113,21 +118,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private void getIssueType(TextView textIssue, Notification notification) {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Vitals").child(notification.getUserId());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 Vitals vitals = snapshot.getValue(Vitals.class);
+
                 if (vitals != null) {
-//                    if (notification.isHeartBeat()) {
-//                        textIssue.setText(vitals.getHeartBeat());
-//                    } else if (notification.isBloodOxygen()) {
-//                        textIssue.setText(vitals.getBloodOxygen());
-//                    } else if (notification.isBloodPressure()) {
-//                        textIssue.setText(vitals.getBloodPressure());
-//                    } else if(notification.isTemperature()) {
-//                        textIssue.setText(vitals.getBodyTemperature());
-//                    }
+
+                    if (notification.isHeartBeat()) {
+                        textIssue.setText(String.valueOf(vitals.getHeartBeat()));
+                    } else if (notification.isBloodOxygen()) {
+                        textIssue.setText(String.valueOf(vitals.getBloodOxygen()));
+                    } else if (notification.isBloodPressure()) {
+                        textIssue.setText(String.valueOf(vitals.getBloodPressure()));
+                    } else if(notification.isTemperature()) {
+                        textIssue.setText(String.valueOf(vitals.getBodyTemperature()));
+                    }
+
                 }
             }
 
