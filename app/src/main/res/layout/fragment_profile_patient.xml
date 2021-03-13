@@ -22,7 +22,7 @@
             android:fontFamily="@font/ubuntu_bold"
             android:includeFontPadding="false"
             android:text="@string/patient_s_profile"
-            android:textColor="@color/colorWhite"
+            android:textColor="#294CF8"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

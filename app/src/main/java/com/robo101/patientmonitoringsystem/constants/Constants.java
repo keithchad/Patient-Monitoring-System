@@ -38,6 +38,7 @@ public class Constants {
     public static final String KEY_PREFERENCE_NAME = "patientPrefs";
     public static final String USER_NAME = "userName";
     public static final String IS_LOGGED_IN = "isLoggedIn";
+    public static final String IS_NEW_USER = "isNewUser";
 
     //Maps
     public static final int PERMISSION_REQUEST_CODE = 21;

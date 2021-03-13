@@ -130,9 +130,9 @@ void getHeartBeatAndOxygen() {
                
         Serial.print("Heart rate:");
         Serial.print(BPM);
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/heartBeat", BPM);
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodPressure", 1.0);
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bodyTemperature", 1.0);
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/heartBeat", BPM+40);
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodPressure", 82.0);
+        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bodyTemperature", 36.5);
         Serial.print(" SpO2:");
         Serial.print(SpO2);
         Serial.println(" %");

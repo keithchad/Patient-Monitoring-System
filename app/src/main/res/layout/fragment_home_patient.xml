@@ -494,7 +494,7 @@
                 android:id="@+id/panickButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PANICK"
+                android:text="PANIC"
                 android:layout_margin="20dp"
                 app:backgroundTint="@android:color/holo_red_dark"
                 android:fontFamily="@font/ubuntu_bold"

@@ -29,8 +29,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -83,7 +85,7 @@ public class HomeFragment extends Fragment {
 
     private ConstraintLayout layoutTips;
 
-    private MaterialButton panickButton;
+    private MaterialButton panicButton;
 
     private String patientId;
 
@@ -108,7 +110,7 @@ public class HomeFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBarTips);
         ImageView imageNoInternet = view.findViewById(R.id.imageNoInternet);
         TextView textNoInternet = view.findViewById(R.id.textNoInternet);
-        panickButton = view.findViewById(R.id.panickButton);
+        panicButton = view.findViewById(R.id.panickButton);
         ScrollView scrollView = view.findViewById(R.id.scrollViewHome);
         ImageView imageRefresh = view.findViewById(R.id.imageRefresh);
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
@@ -145,7 +147,7 @@ public class HomeFragment extends Fragment {
             imageNoInternet.setVisibility(View.VISIBLE);
         }
 
-        panickButton.setOnClickListener(v -> sendNotification());
+        panicButton.setOnClickListener(v -> sendNotification());
 
     }
 
@@ -157,7 +159,11 @@ public class HomeFragment extends Fragment {
         hashMap.put(Constants.USER_ID, firebaseUser.getUid());
         hashMap.put(Constants.TEXT_ISSUE_NAME, "The User needs your help");
 
-        reference.setValue(hashMap);
+        reference.setValue(hashMap).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Doctor has been notified!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void getVitals() {
@@ -178,7 +184,7 @@ public class HomeFragment extends Fragment {
                             BigDecimal bigDecimal = new BigDecimal(heartBeat).setScale(1, RoundingMode.HALF_UP);
                             textHeartRate.setText(String.valueOf(bigDecimal.doubleValue()));
                             redDotHeart.setVisibility(View.VISIBLE);
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
 
                         }else {
 
@@ -193,7 +199,7 @@ public class HomeFragment extends Fragment {
 
                             textBloodOxygen.setText(String.valueOf(vitals.getBloodOxygen()));
                             redDotOxygen.setVisibility(View.VISIBLE);
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -208,7 +214,7 @@ public class HomeFragment extends Fragment {
                             double bloodPressure = vitals.getBloodPressure();
                             BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
                             textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -221,7 +227,7 @@ public class HomeFragment extends Fragment {
                         if (vitals.getBodyTemperature() <= 30.0) {
 
                             redDotTemperature.setVisibility(View.VISIBLE);
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
                             double bodyTemperature = vitals.getBodyTemperature();
                             BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
                             textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
@@ -260,7 +266,6 @@ public class HomeFragment extends Fragment {
                             BigDecimal bigDecimal = new BigDecimal(heartBeat).setScale(1, RoundingMode.HALF_UP);
                             textHeartRate.setText(String.valueOf(bigDecimal.doubleValue()));
                             redDotHeart.setVisibility(View.VISIBLE);
-                            panickButton.setVisibility(View.VISIBLE);
 
                         }else {
 
@@ -275,7 +280,7 @@ public class HomeFragment extends Fragment {
 
                             textBloodOxygen.setText(String.valueOf(vitals.getBloodOxygen()));
                             redDotOxygen.setVisibility(View.VISIBLE);
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -290,7 +295,7 @@ public class HomeFragment extends Fragment {
                             double bloodPressure = vitals.getBloodPressure();
                             BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
                             textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -303,7 +308,7 @@ public class HomeFragment extends Fragment {
                         if (vitals.getBodyTemperature() <= 30.0) {
 
                             redDotTemperature.setVisibility(View.VISIBLE);
-                            panickButton.setVisibility(View.VISIBLE);
+                            panicButton.setVisibility(View.VISIBLE);
                             double bodyTemperature = vitals.getBodyTemperature();
                             BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
                             textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
