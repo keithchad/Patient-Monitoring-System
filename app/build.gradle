@@ -83,6 +83,9 @@ dependencies {
     //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //Rounded ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
     //Liquid Swipe
     implementation 'com.cuberto:liquid-swipe:1.0.0'
 

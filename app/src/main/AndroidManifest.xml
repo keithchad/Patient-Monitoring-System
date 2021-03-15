@@ -9,12 +9,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.PatientMonitoringSystem"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.IntroActivity"></activity>
+        <activity android:name=".activity.feed.CommentsActivity"></activity>
+        <activity android:name=".activity.feed.PostActivity" />
+        <activity android:name=".activity.chat.ChatActivity" />
+        <activity android:name=".activity.IntroActivity" />
         <activity android:name=".authentication.doctor.EmailLoginActivity" />
         <activity android:name=".authentication.doctor.EmailRegisterActivity" />
         <activity android:name=".activity.doctor.EditProfileActivityDoctor" />

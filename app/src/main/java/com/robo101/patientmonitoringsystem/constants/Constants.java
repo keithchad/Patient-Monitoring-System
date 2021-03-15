@@ -34,6 +34,16 @@ public class Constants {
     public static final String TEXT_ISSUE_NAME = "textIssueName";
     public static final String TEXT_ISSUE = "textIssue";
 
+    //Database(Post)
+    public static final String POST_ID = "postId";
+    public static final String POST_IMAGE = "postImage";
+    public static final String CAPTION = "caption";
+    public static final String PUBLISHER_ID = "publisherId";
+
+    //Database(Comment)
+    public static final String COMMENT = "comment";
+    public static final String PUBLISHER = "publisher";
+
     //Shared Preferences
     public static final String KEY_PREFERENCE_NAME = "patientPrefs";
     public static final String USER_NAME = "userName";

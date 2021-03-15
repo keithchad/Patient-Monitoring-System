@@ -86,4 +86,7 @@
     <string name="incoming_meeting_invitation">Incoming Meeting Invitation</string>
     <string name="patients">PATIENTS</string>
     <string name="notification">Notification</string>
+    <string name="feeds">FEEDS</string>
+    <string name="post">POST</string>
+    <string name="caption">CAPTION</string>
 </resources>

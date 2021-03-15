@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.robo101.patientmonitoringsystem.R;
+import com.robo101.patientmonitoringsystem.fragment.feed.DoctorFeed;
 import com.robo101.patientmonitoringsystem.fragment.doctor.HomeFragmentDoctor;
 import com.robo101.patientmonitoringsystem.fragment.doctor.NotificationFragmentDoctor;
-import com.robo101.patientmonitoringsystem.fragment.doctor.ProfileFragmentDoctor;
 
 public class MainActivityDoctor extends AppCompatActivity {
 
@@ -50,7 +50,7 @@ public class MainActivityDoctor extends AppCompatActivity {
                 selectedFragment = new NotificationFragmentDoctor();
                 break;
             case R.id.settings_menu_doctor:
-                selectedFragment = new ProfileFragmentDoctor();
+                selectedFragment = new DoctorFeed();
                 break;
         }
         if (selectedFragment != null) {

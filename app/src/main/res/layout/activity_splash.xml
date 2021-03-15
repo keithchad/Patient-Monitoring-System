@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D0D0D"
+    android:background="#000000"
     tools:context=".activity.SplashActivity">
 
         <ImageView
             android:id="@+id/lottieAnimation"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/md"
             android:elevation="2dp"
             android:layout_centerInParent="true" />
 
@@ -18,7 +18,7 @@
             android:id="@+id/imageHeart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/app_splash"
+            android:src="@drawable/words"
             android:padding="70dp"
             android:elevation="2dp"
             android:layout_below="@id/lottieAnimation"
