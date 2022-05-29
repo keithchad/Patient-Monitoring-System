@@ -44,6 +44,11 @@ public class Constants {
     public static final String COMMENT = "comment";
     public static final String PUBLISHER = "publisher";
 
+    //Database(Chats)
+    public static final String RECEIVER = "receiver";
+    public static final String SENDER = "sender";
+    public static final String MESSAGE = "message";
+
     //Shared Preferences
     public static final String KEY_PREFERENCE_NAME = "patientPrefs";
     public static final String USER_NAME = "userName";

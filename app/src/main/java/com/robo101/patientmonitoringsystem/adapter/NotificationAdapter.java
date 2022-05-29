@@ -21,8 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
-import com.robo101.patientmonitoringsystem.fragment.patient.HomeFragment;
-import com.robo101.patientmonitoringsystem.fragment.patient.ProfileFragment;
+import com.robo101.patientmonitoringsystem.fragment.patient.HomeFragmentPatient;
 import com.robo101.patientmonitoringsystem.model.Notification;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.model.Vitals;
@@ -60,7 +59,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.relativeLayout.setOnClickListener(v -> {
 
-            ((MainActivityPatient)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment());
+            ((MainActivityPatient)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragmentPatient());
             SharedPreferences.Editor editor = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
             editor.putString(Constants.USER_ID, notification.getUserId());
             editor.apply();
@@ -96,7 +95,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private void getUserInfo(CircleImageView imageView, TextView userName, String userId) {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

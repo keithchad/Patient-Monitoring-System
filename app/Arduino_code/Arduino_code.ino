@@ -1,3 +1,16 @@
+
+/**
+ * Created by Keith Chad
+ *
+ * Email: keithchad10@outlook.com
+ *
+ * Github: https://github.com/keithchad
+ *
+ * Copyright (c) 2022 Chad
+ *
+ */
+
+
 //Pulse Heart Rate BPM and Oxygen SpO2 Monitor
 #include <Wire.h>
 #include <MAX30100_PulseOximeter.h>
@@ -8,22 +21,41 @@
 #include "Adafruit_GFX.h"
 #include "OakOLED.h"
 
-//Firebase 
-#define FIREBASE_HOST "patient-monitoring-syste-c3a8f-default-rtdb.firebaseio.com"  //Firebase Realtime Database URL
-#define FIREBASE_AUTH "OkHTg01mYFJXonZTPpVL8ua8RJAzP5zzwURwXDEo" //Firebase Settings Host
+// Provide the token generation process info.
+#include <addons/TokenHelper.h>
+
+// Provide the RTDB payload printing info and other helper functions.
+#include <addons/RTDBHelper.h>
 
 //WiFi
-#define WIFI_SSID "ROBO101"  //Wifi SSID
-#define WIFI_PASSWORD "ROBO101TECH"  //WifiPassword
+#define WIFI_SSID "Jotawi" //WiFi SSID
+#define WIFI_PASSWORD "sonditi@20000009" //WiFi Password
+
+//Define the API Key
+#define API_KEY "AIzaSyCG-79KpLAvW4MDKvDTh9FVk0h5aSR7mW8"
+
+//Define the RealtimeDatabase URL
+#define DATABASE_URL "patient-monitoring-syste-c3a8f-default-rtdb.firebaseio.com/" //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
+
+//Define the user Email and password
+#define USER_EMAIL "firebaseiot@gmail.com"
+#define USER_PASSWORD "369070"
+
+// Define Firebase Data object
+FirebaseData fbdo;
+
+FirebaseAuth auth;
+FirebaseConfig config;
+
+unsigned long sendDataPrevMillis = 0;
+
+unsigned long count = 0;
 
 #define REPORTING_PERIOD_MS 1000
 
 // Connections : SCL PIN - D1 , SDA PIN - D2 , INT PIN - D0
 PulseOximeter pulseOximeter;
 SFE_BMP180 bmp180;
-FirebaseData firebaseData;
-FirebaseJson json;
-FirebaseJson jsonOther;
 OakOLED oled;
 
 double BPM, SpO2;
@@ -128,28 +160,33 @@ void getHeartBeatAndOxygen() {
           if(SpO2 > 0) {
 
                
-        Serial.print("Heart rate:");
-        Serial.print(BPM);
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/heartBeat", BPM+40);
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodPressure", 82.0);
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bodyTemperature", 36.5);
-        Serial.print(" SpO2:");
-        Serial.print(SpO2);
-        Serial.println(" %");
-        json.set("6wRV4Py10vh8AnpJ2ktGjiV1hHg1/bloodOxygen", SpO2);
+                Serial.print("Heart rate:");
+                Serial.print(BPM);
+                Serial.print(" SpO2:");
+                Serial.print(SpO2);
+                Serial.println(" %");
 
-        
 
-               pulseOximeter.shutdown();     
-               Firebase.set(firebaseData, "Vitals", json);
+               pulseOximeter.shutdown();
+                if (Firebase.ready() && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)){
+                  
+                       sendDataPrevMillis = millis();
+                  
+                       Serial.println("Sending Data to Firebase");
+                       Firebase.setInt(fbdo, F("/Vitals/yLQykTjwzWYVzPvPIaAM4riDdDi1/heartBeat"), BPM+40);
+                       Firebase.setInt(fbdo, F("/Vitals/yLQykTjwzWYVzPvPIaAM4riDdDi1/bloodPressure"), 82.0);
+                       Firebase.setInt(fbdo, F("/Vitals/yLQykTjwzWYVzPvPIaAM4riDdDi1/bodyTemperature"), 36.5);
+                       Firebase.setInt(fbdo, F("/Vitals/yLQykTjwzWYVzPvPIaAM4riDdDi1/bloodOxygen"), SpO2);
+                       
+               }
                pulseOximeter.resume();
             
           }
           
         }
-
         
         tsLastReport = millis();
+        
     }
   
 }
@@ -165,28 +202,44 @@ void onBeatDetected() {
 
 void initializeFirebase() {
 
-  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+  //Display Firebase Client Version
+  Serial.printf("Firebase Client v%s\n\n", FIREBASE_CLIENT_VERSION);
+
+  //Assign the api key
+  config.api_key = API_KEY;
+
+  //Assign the user sign in credentials
+  auth.user.email = USER_EMAIL;
+  auth.user.password = USER_PASSWORD;
+
+  //Assign the RTDB URL
+  config.database_url = DATABASE_URL;
+
+  //Assign the callback function for the long running token generation task
+  config.token_status_callback = tokenStatusCallback; // see addons/TokenHelper.h
+  
+  //Begin INtialization
+  Firebase.begin(&config, &auth);
+
+  // Comment or pass false value when WiFi reconnection will control by your code or third party library
   Firebase.reconnectWiFi(true);
-  Serial.print("Firebase Initialized");
+
+  Firebase.setDoubleDigits(5);
+
+  //WiFi reconnect timeout (interval) in ms (10 sec - 5 min) when WiFi disconnected.
+  config.timeout.wifiReconnect = 10 * 1000;
 
 }
 
 void initializeWifi() {
 
+  //Intialize WiFi
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
  
   Serial.print("Connecting to: ");
   Serial.print(WIFI_SSID);
-  oled.clearDisplay();
-  oled.setTextSize(1);
-  oled.setTextColor(1);
-  oled.setCursor(10, 10);
-  oled.println("Connecting to: ");
-  oled.print(WIFI_SSID);
-  oled.display();
-  
+
   while(WiFi.status() != WL_CONNECTED) {
-      Serial.print(".");
       delay(500);
   }
 
@@ -198,14 +251,5 @@ void initializeWifi() {
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
 
-  oled.clearDisplay();
-  oled.setTextSize(1);
-  oled.setTextColor(1);
-  oled.setCursor(10, 10);
-  oled.println("Connected to: ");
-  oled.print(WiFi.SSID());
-  oled.display();
-
-  
 }
     

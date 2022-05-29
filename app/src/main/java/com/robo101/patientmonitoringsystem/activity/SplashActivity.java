@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
         
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorBlack));
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorBlack));
-        
+
     }
 
     private void initialize() {
@@ -75,6 +75,7 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }
                 startActivity(intent);
+                finish();
 
         }, 2000);
     }

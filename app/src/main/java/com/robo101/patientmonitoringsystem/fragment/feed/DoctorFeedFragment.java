@@ -29,7 +29,7 @@ import com.robo101.patientmonitoringsystem.model.Post;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorFeed extends Fragment {
+public class DoctorFeedFragment extends Fragment {
 
     private List<Post> list;
     private PostAdapter postAdapter;
@@ -81,11 +81,7 @@ public class DoctorFeed extends Fragment {
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-
-                    if (post != null && !post.getPublisherId().equals(firebaseUser.getUid())) {
-                        list.add(post);
-                    }
-
+                    list.add(post);
                 }
                 postAdapter.notifyDataSetChanged();
             }

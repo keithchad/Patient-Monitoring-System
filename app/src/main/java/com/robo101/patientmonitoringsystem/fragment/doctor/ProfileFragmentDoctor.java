@@ -116,7 +116,7 @@ public class ProfileFragmentDoctor extends Fragment {
     private void initiateCallMeeting() {
 
         Intent intent = new Intent(getContext(), MainActivityPatient.class);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -145,7 +145,7 @@ public class ProfileFragmentDoctor extends Fragment {
     private void initiateVideoMeeting() {
 
         Intent intent = new Intent(getContext(), MainActivityPatient.class);
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

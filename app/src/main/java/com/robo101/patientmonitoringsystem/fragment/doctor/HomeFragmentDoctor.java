@@ -79,7 +79,7 @@ public class HomeFragmentDoctor extends Fragment implements OnPatientClicked {
 
     private void getPatientData() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

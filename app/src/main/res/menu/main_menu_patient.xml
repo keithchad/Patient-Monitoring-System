@@ -8,13 +8,13 @@
         app:cnb_backgroundColor="#F8D629"/>
 
     <item android:id="@+id/maps_menu"
-        android:title="@string/maps"
-        android:icon="@drawable/ic_map"
+        android:title="Alarm"
+        android:icon="@drawable/ic_alarm"
         app:cnb_backgroundColor="#F8D629"/>
 
     <item android:id="@+id/settings_menu"
-        android:title="@string/settings"
-        android:icon="@drawable/ic_account"
+        android:title="Feed"
+        android:icon="@drawable/ic_chat"
         app:cnb_backgroundColor="#F8D629"/>
 
 </menu>

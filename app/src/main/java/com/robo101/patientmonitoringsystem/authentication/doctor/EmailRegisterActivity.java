@@ -110,8 +110,10 @@ public class EmailRegisterActivity extends AppCompatActivity {
                         }
 
                         DatabaseReference reference = null;
+                        DatabaseReference chatReference = null;
                         if (userId != null) {
                             reference = FirebaseDatabase.getInstance().getReference().child("Doctor").child(userId);
+                            chatReference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
                         }
 
                         HashMap<String, Object> user = new HashMap<>();
@@ -122,6 +124,10 @@ public class EmailRegisterActivity extends AppCompatActivity {
                         user.put(Constants.HOSPITAL, inputHospital.getText().toString());
                         user.put(Constants.GENDER, inputGender.getText().toString());
                         user.put(Constants.SPECIALIZATION, inputSpecialization.getText().toString());
+
+                        if (chatReference != null) {
+                            chatReference.setValue(user);
+                        }
 
                         if (reference != null) {
                             reference.setValue(user).addOnCompleteListener(referenceTask -> {

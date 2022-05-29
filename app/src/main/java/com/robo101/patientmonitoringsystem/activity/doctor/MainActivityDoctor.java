@@ -6,22 +6,33 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.fragment.feed.DoctorFeed;
+import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
+import com.robo101.patientmonitoringsystem.fragment.feed.DoctorFeedFragment;
 import com.robo101.patientmonitoringsystem.fragment.doctor.HomeFragmentDoctor;
 import com.robo101.patientmonitoringsystem.fragment.doctor.NotificationFragmentDoctor;
 
 public class MainActivityDoctor extends AppCompatActivity {
 
     private Fragment selectedFragment = null;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +40,48 @@ public class MainActivityDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_doctor);
         initialize();
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorWhite));
+    }
+
+    private void initializeAds() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+                Toast.makeText(MainActivityDoctor.this, "Initialized", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Toast.makeText(MainActivityDoctor.this, "Loaded Ad", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
     }
 
     private void initialize() {
@@ -50,7 +103,7 @@ public class MainActivityDoctor extends AppCompatActivity {
                 selectedFragment = new NotificationFragmentDoctor();
                 break;
             case R.id.settings_menu_doctor:
-                selectedFragment = new DoctorFeed();
+                selectedFragment = new DoctorFeedFragment();
                 break;
         }
         if (selectedFragment != null) {

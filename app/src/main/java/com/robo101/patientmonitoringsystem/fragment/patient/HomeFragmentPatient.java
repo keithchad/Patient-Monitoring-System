@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -61,7 +63,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
-public class HomeFragment extends Fragment {
+public class HomeFragmentPatient extends Fragment {
 
     private ImageView imageProfile;
     private ImageView redDotHeart;
@@ -84,8 +86,6 @@ public class HomeFragment extends Fragment {
     private ProgressBar progressBar;
 
     private ConstraintLayout layoutTips;
-
-    private MaterialButton panicButton;
 
     private String patientId;
 
@@ -110,7 +110,6 @@ public class HomeFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBarTips);
         ImageView imageNoInternet = view.findViewById(R.id.imageNoInternet);
         TextView textNoInternet = view.findViewById(R.id.textNoInternet);
-        panicButton = view.findViewById(R.id.panickButton);
         ScrollView scrollView = view.findViewById(R.id.scrollViewHome);
         ImageView imageRefresh = view.findViewById(R.id.imageRefresh);
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
@@ -147,22 +146,15 @@ public class HomeFragment extends Fragment {
             imageNoInternet.setVisibility(View.VISIBLE);
         }
 
-        panicButton.setOnClickListener(v -> sendNotification());
-
-    }
-
-    private void sendNotification() {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Notification").child(firebaseUser.getUid());
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(Constants.USER_ID, firebaseUser.getUid());
-        hashMap.put(Constants.TEXT_ISSUE_NAME, "The User needs your help");
-
-        reference.setValue(hashMap).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Doctor has been notified!", Toast.LENGTH_SHORT).show();
+        imageProfile.setOnClickListener( v -> {
+            Fragment fragment = new ProfileFragment ();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = null;
+            if (fragmentManager != null) {
+                fragmentTransaction = fragmentManager.beginTransaction();
             }
+            fragmentTransaction.replace(R.id.fragmentContainer, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
         });
     }
 
@@ -184,7 +176,6 @@ public class HomeFragment extends Fragment {
                             BigDecimal bigDecimal = new BigDecimal(heartBeat).setScale(1, RoundingMode.HALF_UP);
                             textHeartRate.setText(String.valueOf(bigDecimal.doubleValue()));
                             redDotHeart.setVisibility(View.VISIBLE);
-                            panicButton.setVisibility(View.VISIBLE);
 
                         }else {
 
@@ -199,7 +190,6 @@ public class HomeFragment extends Fragment {
 
                             textBloodOxygen.setText(String.valueOf(vitals.getBloodOxygen()));
                             redDotOxygen.setVisibility(View.VISIBLE);
-                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -214,7 +204,6 @@ public class HomeFragment extends Fragment {
                             double bloodPressure = vitals.getBloodPressure();
                             BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
                             textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
-                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -227,7 +216,6 @@ public class HomeFragment extends Fragment {
                         if (vitals.getBodyTemperature() <= 30.0) {
 
                             redDotTemperature.setVisibility(View.VISIBLE);
-                            panicButton.setVisibility(View.VISIBLE);
                             double bodyTemperature = vitals.getBodyTemperature();
                             BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
                             textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
@@ -280,7 +268,6 @@ public class HomeFragment extends Fragment {
 
                             textBloodOxygen.setText(String.valueOf(vitals.getBloodOxygen()));
                             redDotOxygen.setVisibility(View.VISIBLE);
-                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -295,7 +282,6 @@ public class HomeFragment extends Fragment {
                             double bloodPressure = vitals.getBloodPressure();
                             BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
                             textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
-                            panicButton.setVisibility(View.VISIBLE);
 
                         } else {
 
@@ -308,7 +294,6 @@ public class HomeFragment extends Fragment {
                         if (vitals.getBodyTemperature() <= 30.0) {
 
                             redDotTemperature.setVisibility(View.VISIBLE);
-                            panicButton.setVisibility(View.VISIBLE);
                             double bodyTemperature = vitals.getBodyTemperature();
                             BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
                             textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
@@ -337,7 +322,7 @@ public class HomeFragment extends Fragment {
 
     private void getUserInfo() {
         if(patientId != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(patientId);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(patientId);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -356,7 +341,7 @@ public class HomeFragment extends Fragment {
 
         } else {
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(firebaseUser.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

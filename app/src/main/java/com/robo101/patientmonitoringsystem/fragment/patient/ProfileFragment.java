@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
+import com.robo101.patientmonitoringsystem.activity.chat.ChatActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.calls.OutgoingInvitationActivity;
@@ -44,6 +45,7 @@ public class ProfileFragment extends Fragment {
 
     private ImageView imageVideo;
     private ImageView imageCall;
+    private ImageView imageMessage;
 
     private String userId;
 
@@ -68,6 +70,7 @@ public class ProfileFragment extends Fragment {
         imageProfile = view.findViewById(R.id.imageProfileProfile);
         imageVideo = view.findViewById(R.id.imageVideoCall);
         imageCall = view.findViewById(R.id.imageCall);
+        imageMessage = view.findViewById(R.id.imageMessage);
 
         preferenceManager = new PreferenceManager(Objects.requireNonNull(getContext()));
         MaterialButton buttonSignOut = view.findViewById(R.id.buttonSignOut);
@@ -77,6 +80,7 @@ public class ProfileFragment extends Fragment {
             userId = preferenceManager.getString(Constants.USER_ID);
             imageVideo.setVisibility(View.VISIBLE);
             imageCall.setVisibility(View.VISIBLE);
+            imageMessage.setVisibility(View.VISIBLE);
             buttonSignOut.setVisibility(View.GONE);
             buttonChangeProfileDetails.setVisibility(View.GONE);
         }
@@ -96,6 +100,14 @@ public class ProfileFragment extends Fragment {
             initiateCallMeeting();
         });
 
+        imageMessage.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getContext(), ChatActivity.class);
+            intent.putExtra(Constants.USER_ID, userId);
+            startActivity(intent);
+
+        });
+
         buttonSignOut.setOnClickListener(v -> signOut());
 
         getUserInfo();
@@ -103,7 +115,7 @@ public class ProfileFragment extends Fragment {
 
     private void initiateCallMeeting() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -138,7 +150,7 @@ public class ProfileFragment extends Fragment {
 
     private void initiateVideoMeeting() {
         
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -173,7 +185,7 @@ public class ProfileFragment extends Fragment {
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid()).child(Constants.FCM_TOKEN);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(firebaseUser.getUid()).child(Constants.FCM_TOKEN);
         reference.removeValue().addOnSuccessListener(aVoid -> {
 
             Intent intent = new Intent(getContext(), SplashActivity.class);
@@ -189,7 +201,7 @@ public class ProfileFragment extends Fragment {
 
         if (userId == null) {
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.getUid());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(firebaseUser.getUid());
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -213,7 +225,7 @@ public class ProfileFragment extends Fragment {
 
         } else {
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

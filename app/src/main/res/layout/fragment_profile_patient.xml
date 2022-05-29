@@ -30,6 +30,22 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/imageMessage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/user_image"
+            android:focusable="true"
+            android:src="@drawable/ic_chat"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/imageProfileProfile"
+            app:layout_constraintEnd_toEndOf="@+id/textPatient"
+            app:layout_constraintStart_toStartOf="@+id/textPatient"
+            app:layout_constraintTop_toBottomOf="@+id/textPatient"
+            app:tint="@color/colorWhite" />
+
+        <ImageView
             android:id="@+id/imageCall"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -61,10 +77,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/user_image"
-            android:src="@drawable/ic_videocam"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
+            android:src="@drawable/ic_videocam"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/imageProfileProfile"
             app:layout_constraintEnd_toEndOf="parent"

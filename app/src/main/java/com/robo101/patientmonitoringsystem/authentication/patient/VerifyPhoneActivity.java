@@ -126,7 +126,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                                 String userId = user.getUid();
 
-                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
 
                                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -239,8 +239,10 @@ public class VerifyPhoneActivity extends AppCompatActivity {
             }
 
             DatabaseReference reference = null;
+            DatabaseReference chatReference = null;
             if (userId != null) {
-                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                reference = FirebaseDatabase.getInstance().getReference().child("Patients").child(userId);
+                chatReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
             }
 
             HashMap<String, Object> hashMap = new HashMap<>();
@@ -251,6 +253,10 @@ public class VerifyPhoneActivity extends AppCompatActivity {
             hashMap.put(Constants.AGE, age);
             hashMap.put(Constants.PHONE_NUMBER, "+254" + getIntent().getStringExtra(Constants.MOBILE));
             hashMap.put(Constants.IMAGE_URL, Constants.DUMMY_IMAGE);
+
+            if (chatReference != null) {
+                chatReference.setValue(hashMap);
+            }
 
             if (reference != null) {
                 reference.setValue(hashMap)

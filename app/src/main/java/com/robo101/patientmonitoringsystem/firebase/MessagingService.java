@@ -1,7 +1,6 @@
 package com.robo101.patientmonitoringsystem.firebase;
 
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,16 +16,11 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        Log.e("token", token); 
     }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
-        if(remoteMessage.getNotification() != null) {
-            Log.e("FCM", remoteMessage.getNotification().getBody());
-        }
 
         String type = remoteMessage.getData().get(Constants.REMOTE_MSG_TYPE);
 
