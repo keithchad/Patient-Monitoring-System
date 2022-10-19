@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/secondIntroColor"
+    tools:context=".fragment.intro.SecondIntroFragment">
+
+    <ImageView
+        android:id="@+id/mapIllustration"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:src="@drawable/map_illustration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".3"/>
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/ubuntu_bold"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginTop="25dp"
+        android:textSize="30sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toTopOf="@id/mapIllustration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/mapIllustration"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slide"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/ubuntu_bold"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="30dp"
+        android:textSize="24sp"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintBaseline_toBaselineOf="@id/textName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textName"
+        app:layout_constraintTop_toTopOf="@id/textName"/>
+
+    <TextView
+        android:id="@+id/textProfessional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_regular"
+        android:text="Patient"
+        android:textSize="40sp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/mapIllustration"
+        app:layout_constraintTop_toBottomOf="@id/mapIllustration"
+        app:layout_constraintVertical_bias="0"/>
+
+    <TextView
+        android:id="@+id/textDoctors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="Location"
+        android:textColor="@color/colorBlack"
+        android:textSize="56sp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textProfessional"
+        app:layout_constraintTop_toBottomOf="@id/textProfessional" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:text="When the doctors notice an abnormality in the patient, they can get the patients current location and send an ambulance."
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/ubuntu_regular"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".1"
+        app:layout_constraintStart_toStartOf="@id/textDoctors"
+        app:layout_constraintTop_toBottomOf="@id/textDoctors"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginEnd="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
