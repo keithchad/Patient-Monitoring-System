@@ -24,8 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
-import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
-import com.robo101.patientmonitoringsystem.calls.OutgoingInvitationActivity;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
@@ -75,8 +73,6 @@ public class ProfileFragment extends Fragment {
 
         if (preferenceManager.getString(Constants.USER_ID) != null) {
             userId = preferenceManager.getString(Constants.USER_ID);
-            imageVideo.setVisibility(View.VISIBLE);
-            imageCall.setVisibility(View.VISIBLE);
             buttonSignOut.setVisibility(View.GONE);
             buttonChangeProfileDetails.setVisibility(View.GONE);
         }
@@ -88,86 +84,9 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
-        imageVideo.setOnClickListener(v -> {
-            initiateVideoMeeting();
-        });
-
-        imageCall.setOnClickListener(v -> {
-            initiateCallMeeting();
-        });
-
         buttonSignOut.setOnClickListener(v -> signOut());
 
         getUserInfo();
-    }
-
-    private void initiateCallMeeting() {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User_Patient userPatient = snapshot.getValue(User_Patient.class);
-                if (userPatient != null) {
-
-                    if (userPatient.getToken() == null) {
-
-                        Objects.requireNonNull(userPatient.getToken()).trim();
-                    } else {
-
-                        Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
-                        intent.putExtra(Constants.NAME, userPatient.getName());
-                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
-                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
-                        intent.putExtra(Constants.IMAGE_URL, userPatient.getImageUrl());
-                        intent.putExtra("type", "audio");
-                        startActivity(intent);
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
-    private void initiateVideoMeeting() {
-        
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User_Patient userPatient = snapshot.getValue(User_Patient.class);
-                if (userPatient != null) {
-                    
-                    if (userPatient.getToken() == null && Objects.requireNonNull(userPatient.getToken()).trim().isEmpty()) {
-
-                        Toast.makeText(getContext(), userPatient.getName() + " is not available!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        
-                        Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
-                        intent.putExtra(Constants.NAME, userPatient.getName());
-                        intent.putExtra(Constants.FCM_TOKEN, userPatient.getToken());
-                        intent.putExtra(Constants.USER_ID, userPatient.getUserId());
-                        intent.putExtra(Constants.IMAGE_URL, userPatient.getImageUrl());
-                        intent.putExtra("type", "video");
-                        startActivity(intent);
-                        
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 
     private void signOut() {

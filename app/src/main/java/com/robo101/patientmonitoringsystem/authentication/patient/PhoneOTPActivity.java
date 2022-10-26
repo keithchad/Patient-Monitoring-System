@@ -1,6 +1,7 @@
 package com.robo101.patientmonitoringsystem.authentication.patient;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -59,9 +60,11 @@ public class PhoneOTPActivity extends AppCompatActivity {
 
     private void sendOTP() {
 
-        if (Objects.requireNonNull(editTextNumber.getText()).toString().trim().isEmpty()) {
-            Snackbar.make(scrollView, "Enter Mobile Number", Snackbar.LENGTH_SHORT).show();
-            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            if (Objects.requireNonNull(editTextNumber.getText()).toString().trim().isEmpty()) {
+                Snackbar.make(scrollView, "Enter Mobile Number", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
         }
         progressBar.setVisibility(View.VISIBLE);
         buttonGetOTP.setVisibility(View.GONE);
@@ -98,9 +101,11 @@ public class PhoneOTPActivity extends AppCompatActivity {
                 .setPhoneNumber("+254" + editTextNumber.getText())
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(this)
+                .setActivity(this)
                 .setCallbacks(callBacks)
                 .build();
 
         PhoneAuthProvider.verifyPhoneNumber(phoneAuthOptions);
+
     }
 }

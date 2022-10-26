@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     //Liquid Swipe
-    implementation 'com.cuberto:liquid-swipe:1.0.0'
+    //implementation 'com.cuberto:liquid-swipe:1.0.0'
 
     //Image Cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'

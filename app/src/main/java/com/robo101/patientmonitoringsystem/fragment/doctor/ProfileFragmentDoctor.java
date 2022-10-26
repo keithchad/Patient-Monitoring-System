@@ -24,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.robo101.patientmonitoringsystem.R;
 import com.robo101.patientmonitoringsystem.activity.SplashActivity;
 import com.robo101.patientmonitoringsystem.activity.doctor.EditProfileActivityDoctor;
-import com.robo101.patientmonitoringsystem.activity.patient.EditProfileActivity;
 import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.model.User_Doctor;

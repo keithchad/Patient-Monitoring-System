@@ -1,16 +1,9 @@
 package com.robo101.patientmonitoringsystem.fragment.patient;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +15,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,11 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.robo101.patientmonitoringsystem.R;
-import com.robo101.patientmonitoringsystem.activity.patient.MainActivityPatient;
 import com.robo101.patientmonitoringsystem.constants.Constants;
-import com.robo101.patientmonitoringsystem.model.Tips;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
 import com.robo101.patientmonitoringsystem.model.Vitals;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
@@ -55,11 +38,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.Random;
 
 public class HomeFragment extends Fragment {
 

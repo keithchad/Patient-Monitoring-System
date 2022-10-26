@@ -33,11 +33,8 @@ import com.robo101.patientmonitoringsystem.adapter.DoctorAdapter;
 import com.robo101.patientmonitoringsystem.constants.Constants;
 import com.robo101.patientmonitoringsystem.listeners.OnPatientClicked;
 import com.robo101.patientmonitoringsystem.model.User_Patient;
-import com.robo101.patientmonitoringsystem.model.Vitals;
 import com.robo101.patientmonitoringsystem.utils.PreferenceManager;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
