@@ -100,10 +100,10 @@ public class HomeFragment extends Fragment {
         textBloodPressure = view.findViewById(R.id.textBloodPressure);
         textTemperature = view.findViewById(R.id.textTemperature);
 
-        redDotHeart = view.findViewById(R.id.redDotHeart);
-        redDotOxygen = view.findViewById(R.id.redDotOxygen);
-        redDotPressure = view.findViewById(R.id.redDotPressure);
-        redDotTemperature = view.findViewById(R.id.redDotTemperature);
+//        redDotHeart = view.findViewById(R.id.redDotHeart);
+//        redDotOxygen = view.findViewById(R.id.redDotOxygen);
+//        redDotPressure = view.findViewById(R.id.redDotPressure);
+//        redDotTemperature = view.findViewById(R.id.redDotTemperature);
 
         tipsViewModel = new ViewModelProvider(this).get(TipsViewModel.class);
         patientId = preferenceManager.getString(Constants.USER_ID);
@@ -184,13 +184,13 @@ public class HomeFragment extends Fragment {
                         } else {
 
                             textBloodOxygen.setText(String.valueOf(vitals.getBloodOxygen()));
-                            redDotOxygen.setVisibility(View.GONE);
+                            //redDotOxygen.setVisibility(View.GONE);
 
                         }
 
                         if (vitals.getBloodPressure() <= 120.0) {
 
-                            redDotPressure.setVisibility(View.VISIBLE);
+                            //redDotPressure.setVisibility(View.VISIBLE);
                             double bloodPressure = vitals.getBloodPressure();
                             BigDecimal bigDecimal = new BigDecimal(bloodPressure).setScale(2, RoundingMode.HALF_UP);
                             textBloodPressure.setText(String.valueOf(bigDecimal.doubleValue()));
@@ -214,7 +214,7 @@ public class HomeFragment extends Fragment {
 
                         } else {
 
-                            redDotTemperature.setVisibility(View.GONE);
+                            //redDotTemperature.setVisibility(View.GONE);
                             double bodyTemperature = vitals.getBodyTemperature();
                             BigDecimal bigDecimalTemp = new BigDecimal(bodyTemperature).setScale(2, RoundingMode.HALF_UP);
                             textTemperature.setText(String.valueOf(bigDecimalTemp.doubleValue()));
@@ -245,21 +245,21 @@ public class HomeFragment extends Fragment {
                             double heartBeat = vitals.getHeartBeat();
                             BigDecimal bigDecimal = new BigDecimal(heartBeat).setScale(1, RoundingMode.HALF_UP);
                             textHeartRate.setText(String.valueOf(bigDecimal.doubleValue()));
-                            redDotHeart.setVisibility(View.VISIBLE);
+                            //redDotHeart.setVisibility(View.VISIBLE);
 
                         }else {
 
                             double heartBeat = vitals.getHeartBeat();
                             BigDecimal bigDecimal = new BigDecimal(heartBeat).setScale(1, RoundingMode.HALF_UP);
                             textHeartRate.setText(String.valueOf(bigDecimal.doubleValue()));
-                            redDotHeart.setVisibility(View.GONE);
+                            //redDotHeart.setVisibility(View.GONE);
 
                         }
 
                         if (vitals.getBloodOxygen() <= 20) {
 
                             textBloodOxygen.setText(String.valueOf(vitals.getBloodOxygen()));
-                            redDotOxygen.setVisibility(View.VISIBLE);
+                            //redDotOxygen.setVisibility(View.VISIBLE);
                             panicButton.setVisibility(View.VISIBLE);
 
                         } else {

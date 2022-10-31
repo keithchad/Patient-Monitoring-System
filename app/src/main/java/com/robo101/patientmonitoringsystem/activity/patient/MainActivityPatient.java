@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.robo101.patientmonitoringsystem.constants.Constants;
+import com.robo101.patientmonitoringsystem.fragment.patient.DietFragment;
 import com.robo101.patientmonitoringsystem.fragment.patient.HomeFragment;
 import com.robo101.patientmonitoringsystem.fragment.patient.ProfileFragment;
 import com.robo101.patientmonitoringsystem.R;
@@ -67,7 +68,7 @@ public class MainActivityPatient extends AppCompatActivity {
                 selectedFragment = new HomeFragment();
                 break;
             case R.id.maps_menu:
-                selectedFragment = new MapsFragment();
+                selectedFragment = new DietFragment();
                 break;
             case R.id.settings_menu:
                 selectedFragment = new ProfileFragment();
