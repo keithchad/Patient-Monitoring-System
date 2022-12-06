@@ -40,7 +40,6 @@ public class DietFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this::populateData);
 
         list = new ArrayList<>();
@@ -51,19 +50,19 @@ public class DietFragment extends Fragment {
     }
 
     private void populateData() {
-        Diet diet = new Diet("Balanced Diet", "", R.drawable.app_logo);
+        Diet diet = new Diet("Balanced Diet", "Contains different kinds of foods in certain quantities so that the requirement for calories, proteins, minerals and vitamins are met.", R.drawable.balanced_diet);
         list.add(diet);
-        Diet diet1 = new Diet("Mediterranean Diet", "Consists of fat, saturated fats not exceeding 8 percent of calorie intake.", R.drawable.app_logo);
+        Diet diet1 = new Diet("Mediterranean Diet", "Consists of fat, saturated fats not exceeding 8 percent of calorie intake.", R.drawable.mediterrenean_diet);
         list.add(diet1);
-        Diet diet2 = new Diet("Veganism", "It is a diet that involves not eating anything that involves an animal product", R.drawable.app_logo);
+        Diet diet2 = new Diet("Veganism", "It is a diet that involves not eating anything that involves an animal product", R.drawable.vegan_diet);
         list.add(diet2);
-        Diet diet3 = new Diet("Low-Carbohydrate Diet", "Limits the amount of carbohydrates consumption.", R.drawable.app_logo);
+        Diet diet3 = new Diet("Low-Carbohydrate Diet", "Limits the amount of carbohydrates consumption.", R.drawable.lowcab_diet);
         list.add(diet3);
-        Diet diet4 = new Diet("Low-Fat Diet", "It is useful in weight loss. This is a calorie-restricted diet.", R.drawable.app_logo);
+        Diet diet4 = new Diet("Low-Fat Diet", "It is useful in weight loss. This is a calorie-restricted diet.", R.drawable.lowfat_diet);
         list.add(diet4);
-        Diet diet5 = new Diet("Diabetic Diet", "Helps in controlling blood sugar", R.drawable.app_logo);
+        Diet diet5 = new Diet("Diabetic Diet", "Helps in controlling blood sugar", R.drawable.diabetic_diet);
         list.add(diet5);
-        Diet diet6 = new Diet("Paleo Diet", "Is a natural way of eating, one that almost abandons all intake of sugar.", R.drawable.app_logo);
+        Diet diet6 = new Diet("Paleo Diet", "Is a natural way of eating, one that almost abandons all intake of sugar.", R.drawable.paleo_diet);
         list.add(diet6);
     }
 }

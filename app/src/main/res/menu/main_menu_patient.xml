@@ -8,8 +8,8 @@
         app:cnb_backgroundColor="#F8D629"/>
 
     <item android:id="@+id/maps_menu"
-        android:title="@string/maps"
-        android:icon="@drawable/ic_map"
+        android:title="Diet"
+        android:icon="@drawable/nutrient"
         app:cnb_backgroundColor="#F8D629"/>
 
     <item android:id="@+id/settings_menu"

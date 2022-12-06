@@ -11,6 +11,8 @@ public class Diet {
     public String dietDescription;
     public int dietImage;
 
+    public Diet() {}
+
     public Diet(String dietName, String dietDescription, int dietImage) {
         this.dietName = dietName;
         this.dietDescription = dietDescription;
